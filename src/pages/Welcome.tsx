@@ -7,9 +7,9 @@ const Welcome = () => {
   const navigate = useNavigate();
 
   const steps = [
-    { number: "1", title: "Enter company code", icon: MessageSquare },
-    { number: "2", title: "Write a message", icon: Send },
-    { number: "3", title: "Save message ID", icon: CheckCircle2 },
+    { number: "1", title: "Введите код компании", icon: MessageSquare },
+    { number: "2", title: "Напишите сообщение", icon: Send },
+    { number: "3", title: "Сохраните ID сообщения", icon: CheckCircle2 },
   ];
 
   return (
@@ -20,7 +20,7 @@ const Welcome = () => {
           <div className="flex items-center justify-between">
             <h1 className="text-xl font-semibold text-primary">FeedbackHub</h1>
             <Button variant="ghost" size="sm">
-              For Companies
+              Для компаний
             </Button>
           </div>
         </div>
@@ -31,11 +31,11 @@ const Welcome = () => {
         <div className="max-w-4xl w-full text-center space-y-12">
           <div className="space-y-6">
             <h1 className="text-5xl md:text-6xl font-bold text-foreground leading-tight">
-              Send anonymous feedback<br />to your company
+              Отправьте анонимный отзыв<br />в свою компанию
             </h1>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Share your honest thoughts, complaints, praise, or suggestions without revealing your identity. 
-              Your voice matters, and we keep it completely confidential.
+              Делитесь честными мыслями, жалобами, похвалами или предложениями, не раскрывая свою личность. 
+              Ваш голос важен, и мы сохраняем полную конфиденциальность.
             </p>
           </div>
 
@@ -46,7 +46,7 @@ const Welcome = () => {
               onClick={() => navigate('/send-message')}
             >
               <Send className="mr-2 h-5 w-5" />
-              Send Message
+              Отправить сообщение
             </Button>
             <Button 
               size="lg" 
@@ -55,13 +55,13 @@ const Welcome = () => {
               onClick={() => navigate('/check-status')}
             >
               <CheckCircle2 className="mr-2 h-5 w-5" />
-              Check Status
+              Проверить статус
             </Button>
           </div>
 
           {/* Steps */}
           <Card className="max-w-3xl mx-auto p-8 mt-16">
-            <h3 className="text-lg font-semibold mb-8 text-foreground">How it works</h3>
+            <h3 className="text-lg font-semibold mb-8 text-foreground">Как это работает</h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {steps.map((step, index) => (
                 <div key={index} className="flex flex-col items-center text-center space-y-3">
@@ -81,7 +81,7 @@ const Welcome = () => {
       <footer className="border-t border-border bg-card">
         <div className="container mx-auto px-6 py-6">
           <p className="text-sm text-muted-foreground text-center">
-            © 2024 FeedbackHub. Your anonymity is guaranteed.
+            © 2024 FeedbackHub. Ваша анонимность гарантирована.
           </p>
         </div>
       </footer>
