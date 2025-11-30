@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -7,49 +9,66 @@ import { Badge } from "@/components/ui/badge";
 import { ArrowLeft, Search, Clock, CheckCircle, MessageSquare } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import { messageApi } from "@/services/api";
+import { Message } from "@/types";
 
 const CheckStatus = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [messageId, setMessageId] = useState("");
-  const [showResult, setShowResult] = useState(false);
+  const [searchId, setSearchId] = useState("");
 
-  const mockResult = {
-    id: "FB-2024-A7K9X2",
-    type: "Жалоба",
-    date: "2024-03-15",
-    status: "В работе",
-    lastUpdate: "2024-03-16",
-    message: "Ваш отзыв был рассмотрен HR-отделом и в настоящее время обрабатывается.",
-  };
+  const { data: message, isLoading, refetch } = useQuery({
+    queryKey: ["message", searchId],
+    queryFn: () => messageApi.getById(searchId),
+    enabled: !!searchId,
+  });
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (!messageId) {
-      toast.error("Пожалуйста, введите ID сообщения");
+      toast.error(t("checkStatus.enterId"));
       return;
     }
-    setShowResult(true);
+    setSearchId(messageId);
+    refetch();
   };
 
   const getStatusIcon = (status: string) => {
-    switch (status) {
-      case "In Progress":
-        return <Clock className="h-5 w-5" />;
-      case "Resolved":
-        return <CheckCircle className="h-5 w-5" />;
-      default:
-        return <MessageSquare className="h-5 w-5" />;
+    const statusLower = status.toLowerCase();
+    if (statusLower === t("checkStatus.inProgress").toLowerCase() || status === "In Progress" || status === "В работе") {
+      return <Clock className="h-5 w-5" />;
     }
+    if (statusLower === t("checkStatus.resolved").toLowerCase() || status === "Resolved" || status === "Решено") {
+      return <CheckCircle className="h-5 w-5" />;
+    }
+    return <MessageSquare className="h-5 w-5" />;
   };
 
   const getStatusColor = (status: string) => {
-    switch (status) {
-      case "В работе":
-        return "bg-primary text-primary-foreground";
-      case "Решено":
-        return "bg-secondary text-secondary-foreground";
+    const statusLower = status.toLowerCase();
+    if (statusLower === t("checkStatus.new").toLowerCase() || status === "New" || status === "Новое") {
+      return "bg-accent text-accent-foreground"; /* #F64C72 */
+    }
+    if (statusLower === t("checkStatus.inProgress").toLowerCase() || status === "In Progress" || status === "В работе") {
+      return "bg-secondary text-secondary-foreground"; /* #553D67 */
+    }
+    if (statusLower === t("checkStatus.resolved").toLowerCase() || status === "Resolved" || status === "Решено") {
+      return "bg-success text-success-foreground"; /* Green */
+    }
+    return "bg-muted text-muted-foreground";
+  };
+
+  const getTypeLabel = (type: string) => {
+    switch (type) {
+      case "complaint":
+        return t("sendMessage.complaint");
+      case "praise":
+        return t("sendMessage.praise");
+      case "suggestion":
+        return t("sendMessage.suggestion");
       default:
-        return "bg-accent text-accent-foreground";
+        return type;
     }
   };
 
@@ -59,7 +78,7 @@ const CheckStatus = () => {
         <div className="container mx-auto px-6 py-4">
           <Button variant="ghost" size="sm" onClick={() => navigate('/')}>
             <ArrowLeft className="h-4 w-4 mr-2" />
-            На главную
+            {t("common.back")}
           </Button>
         </div>
       </header>
@@ -67,73 +86,96 @@ const CheckStatus = () => {
       <main className="flex-1 flex items-center justify-center px-6 py-20">
         <div className="max-w-2xl w-full space-y-8">
           <div className="text-center space-y-3">
-            <h1 className="text-4xl font-bold text-foreground">Проверить статус сообщения</h1>
+            <h1 className="text-4xl font-bold text-foreground">{t("checkStatus.title")}</h1>
             <p className="text-lg text-muted-foreground">
-              Введите ID вашего сообщения, чтобы отследить статус отзыва
+              {t("checkStatus.description")}
             </p>
           </div>
 
           <Card className="p-8">
             <form onSubmit={handleSearch} className="space-y-6">
               <div className="space-y-2">
-                <Label htmlFor="message-id">ID сообщения</Label>
+                <Label htmlFor="message-id">{t("checkStatus.messageId")}</Label>
                 <div className="flex gap-3">
                   <Input
                     id="message-id"
-                    placeholder="например, FB-2024-A7K9X2"
+                    placeholder={t("checkStatus.messageIdPlaceholder")}
                     value={messageId}
                     onChange={(e) => setMessageId(e.target.value)}
                     className="text-lg font-mono"
                   />
                   <Button type="submit" size="lg">
                     <Search className="h-5 w-5 mr-2" />
-                    Поиск
+                    {t("checkStatus.search")}
                   </Button>
                 </div>
                 <p className="text-sm text-muted-foreground">
-                  Введите ID сообщения, который вы получили после отправки отзыва
+                  {t("checkStatus.enterIdDescription")}
                 </p>
               </div>
             </form>
 
-            {showResult && (
+            {isLoading && searchId && (
+              <div className="mt-8 pt-8 border-t border-border text-center">
+                <p className="text-muted-foreground">{t("common.loading")}</p>
+              </div>
+            )}
+
+            {!isLoading && searchId && !message && (
+              <div className="mt-8 pt-8 border-t border-border text-center">
+                <p className="text-muted-foreground">{t("checkStatus.notFound")}</p>
+              </div>
+            )}
+
+            {!isLoading && message && (
               <div className="mt-8 pt-8 border-t border-border space-y-6">
                 <div className="flex items-start justify-between">
                   <div className="space-y-1">
                     <code className="text-lg font-mono font-bold text-primary">
-                      {mockResult.id}
+                      {message.id}
                     </code>
                     <div className="flex items-center gap-2">
                       <Badge variant="outline" className="text-accent border-accent">
-                        {mockResult.type}
+                        {getTypeLabel(message.type)}
                       </Badge>
                       <span className="text-sm text-muted-foreground">
-                        Отправлено {mockResult.date}
+                        {t("checkStatus.sentOn")} {new Date(message.createdAt).toLocaleDateString("ru-RU")}
                       </span>
                     </div>
                   </div>
-                  <Badge className={getStatusColor(mockResult.status)}>
-                    <span className="mr-2">{getStatusIcon(mockResult.status)}</span>
-                    {mockResult.status}
+                  <Badge className={getStatusColor(message.status)}>
+                    <span className="mr-2">{getStatusIcon(message.status)}</span>
+                    {message.status}
                   </Badge>
                 </div>
 
-                <Card className="bg-muted p-6">
-                  <h3 className="font-semibold mb-3">Обновление статуса</h3>
-                  <p className="text-sm text-foreground leading-relaxed">
-                    {mockResult.message}
-                  </p>
-                  <p className="text-xs text-muted-foreground mt-4">
-                    Последнее обновление: {mockResult.lastUpdate}
-                  </p>
-                </Card>
+                {message.companyResponse && (
+                  <Card className="bg-muted p-6">
+                    <h3 className="font-semibold mb-3">{t("checkStatus.companyResponse")}</h3>
+                    <p className="text-sm text-foreground leading-relaxed">
+                      {message.companyResponse}
+                    </p>
+                    {message.lastUpdate && (
+                      <p className="text-xs text-muted-foreground mt-4">
+                        {t("checkStatus.lastUpdate")} {new Date(message.lastUpdate).toLocaleDateString("ru-RU")}
+                      </p>
+                    )}
+                  </Card>
+                )}
 
                 <div className="flex flex-col sm:flex-row gap-3">
                   <Button variant="outline" className="flex-1" onClick={() => navigate('/send-message')}>
-                    Отправить еще сообщение
+                    {t("checkStatus.sendAnother")}
                   </Button>
-                  <Button variant="outline" className="flex-1" onClick={() => setShowResult(false)}>
-                    Проверить другой ID
+                  <Button
+                    variant="outline"
+                    className="flex-1"
+                    onClick={() => {
+                      setSearchId("");
+                      setMessageId("");
+                    }}
+                  >
+                    {t("checkStatus.checkAnother")}
                   </Button>
                 </div>
               </div>

@@ -1,0 +1,97 @@
+import { useTranslation } from 'react-i18next';
+import { Listbox, Transition } from '@headlessui/react';
+import { Check, ChevronDown, Globe } from 'lucide-react';
+import { Fragment } from 'react';
+import { cn } from '@/lib/utils';
+
+const languages = [
+  { code: 'ru', name: 'Русский', flag: '🇷🇺' },
+  { code: 'en', name: 'English', flag: '🇬🇧' },
+  { code: 'kk', name: 'Қазақша', flag: '🇰🇿' },
+];
+
+export const LanguageSwitcher = () => {
+  const { i18n } = useTranslation();
+  const currentLanguage = languages.find((lang) => lang.code === i18n.language) || languages[0];
+
+  const changeLanguage = (code: string) => {
+    i18n.changeLanguage(code);
+  };
+
+  return (
+    <Listbox value={currentLanguage.code} onChange={changeLanguage}>
+      {({ open }) => (
+        <div className="relative">
+          <Listbox.Button
+            className={cn(
+              "relative w-full cursor-pointer rounded-lg bg-white border border-border py-2 pl-3 pr-10 text-left shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 sm:text-sm",
+              "hover:bg-muted/50 transition-colors"
+            )}
+          >
+            <span className="flex items-center gap-2">
+              <Globe className="h-4 w-4 text-muted-foreground" />
+              <span className="block truncate font-medium text-foreground">
+                {currentLanguage.flag} {currentLanguage.name}
+              </span>
+            </span>
+            <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+              <ChevronDown
+                className={cn(
+                  "h-4 w-4 text-muted-foreground transition-transform",
+                  open && "rotate-180"
+                )}
+                aria-hidden="true"
+              />
+            </span>
+          </Listbox.Button>
+
+          <Transition
+            as={Fragment}
+            leave="transition ease-in duration-100"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <Listbox.Options className="absolute z-50 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white border border-border py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+              {languages.map((language) => (
+                <Listbox.Option
+                  key={language.code}
+                  className={({ active }) =>
+                    cn(
+                      "relative cursor-pointer select-none py-2 pl-3 pr-9",
+                      active ? "bg-primary text-white" : "text-foreground"
+                    )
+                  }
+                  value={language.code}
+                >
+                  {({ selected, active }) => (
+                    <>
+                      <span
+                        className={cn(
+                          "block truncate",
+                          selected ? "font-semibold" : "font-normal"
+                        )}
+                      >
+                        {language.flag} {language.name}
+                      </span>
+                      {selected ? (
+                        <span
+                          className={cn(
+                            "absolute inset-y-0 right-0 flex items-center pr-4",
+                            active ? "text-white" : "text-primary"
+                          )}
+                        >
+                          <Check className="h-5 w-5" aria-hidden="true" />
+                        </span>
+                      ) : null}
+                    </>
+                  )}
+                </Listbox.Option>
+              ))}
+            </Listbox.Options>
+          </Transition>
+        </div>
+      )}
+    </Listbox>
+  );
+};
+
