@@ -22,26 +22,26 @@ const CompanyDashboard = () => {
   const [searchQuery, setSearchQuery] = useState("");
 
   const stats = [
-    { label: "New", value: "12", color: "bg-accent text-accent-foreground" },
-    { label: "In Progress", value: "8", color: "bg-primary text-primary-foreground" },
-    { label: "Resolved", value: "45", color: "bg-secondary text-secondary-foreground" },
+    { label: "Новые", value: "12", color: "bg-accent text-accent-foreground" },
+    { label: "В работе", value: "8", color: "bg-primary text-primary-foreground" },
+    { label: "Решены", value: "45", color: "bg-secondary text-secondary-foreground" },
   ];
 
   const messages = [
-    { id: "FB-2024-A7K9X2", type: "Complaint", date: "2024-03-15", status: "New", snippet: "Issue with remote work policy..." },
-    { id: "FB-2024-B3M5Y1", type: "Praise", date: "2024-03-14", status: "In Progress", snippet: "Great team collaboration on..." },
-    { id: "FB-2024-C8N2Z4", type: "Suggestion", date: "2024-03-14", status: "New", snippet: "Consider implementing flexible..." },
-    { id: "FB-2024-D1P7X8", type: "Complaint", date: "2024-03-13", status: "Resolved", snippet: "Parking space allocation needs..." },
-    { id: "FB-2024-E9R4W3", type: "Praise", date: "2024-03-13", status: "Resolved", snippet: "Excellent benefits package update..." },
+    { id: "FB-2024-A7K9X2", type: "Жалоба", date: "2024-03-15", status: "Новое", snippet: "Проблема с политикой удаленной работы..." },
+    { id: "FB-2024-B3M5Y1", type: "Похвала", date: "2024-03-14", status: "В работе", snippet: "Отличное командное взаимодействие..." },
+    { id: "FB-2024-C8N2Z4", type: "Предложение", date: "2024-03-14", status: "Новое", snippet: "Рассмотрите возможность внедрения гибкого..." },
+    { id: "FB-2024-D1P7X8", type: "Жалоба", date: "2024-03-13", status: "Решено", snippet: "Распределение парковочных мест требует..." },
+    { id: "FB-2024-E9R4W3", type: "Похвала", date: "2024-03-13", status: "Решено", snippet: "Отличное обновление пакета льгот..." },
   ];
 
   const navigation = [
-    { name: "Dashboard", icon: LayoutDashboard, path: "/company" },
-    { name: "Messages", icon: MessageSquare, path: "/company/messages" },
-    { name: "Growth Game", icon: Trophy, path: "/company/growth" },
-    { name: "Reports", icon: BarChart3, path: "/company/reports" },
-    { name: "Plan & Billing", icon: CreditCard, path: "/company/billing" },
-    { name: "Company Settings", icon: Settings, path: "/company/settings" },
+    { name: "Главная", icon: LayoutDashboard, path: "/company" },
+    { name: "Сообщения", icon: MessageSquare, path: "/company/messages" },
+    { name: "Игра роста", icon: Trophy, path: "/company/growth" },
+    { name: "Отчеты", icon: BarChart3, path: "/company/reports" },
+    { name: "План и оплата", icon: CreditCard, path: "/company/billing" },
+    { name: "Настройки компании", icon: Settings, path: "/company/settings" },
   ];
 
   return (
@@ -74,7 +74,7 @@ const CompanyDashboard = () => {
             <div className="flex items-center gap-4">
               <h2 className="text-lg font-semibold text-foreground">Acme Corporation</h2>
               <Badge variant="secondary" className="bg-secondary text-secondary-foreground">
-                Pro Plan
+                Про план
               </Badge>
             </div>
             <div className="flex items-center gap-3">
@@ -106,11 +106,11 @@ const CompanyDashboard = () => {
           {/* Charts Row */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <Card className="p-6">
-              <h3 className="text-lg font-semibold mb-4">Message Distribution</h3>
+              <h3 className="text-lg font-semibold mb-4">Распределение сообщений</h3>
               <div className="space-y-4">
                 <div className="space-y-2">
                   <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Complaints</span>
+                    <span className="text-muted-foreground">Жалобы</span>
                     <span className="font-semibold">45%</span>
                   </div>
                   <div className="h-3 bg-muted rounded-full overflow-hidden">
@@ -119,7 +119,7 @@ const CompanyDashboard = () => {
                 </div>
                 <div className="space-y-2">
                   <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Praise</span>
+                    <span className="text-muted-foreground">Похвалы</span>
                     <span className="font-semibold">30%</span>
                   </div>
                   <div className="h-3 bg-muted rounded-full overflow-hidden">
@@ -128,7 +128,7 @@ const CompanyDashboard = () => {
                 </div>
                 <div className="space-y-2">
                   <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Suggestions</span>
+                    <span className="text-muted-foreground">Предложения</span>
                     <span className="font-semibold">25%</span>
                   </div>
                   <div className="h-3 bg-muted rounded-full overflow-hidden">
@@ -139,22 +139,22 @@ const CompanyDashboard = () => {
             </Card>
 
             <Card className="p-6">
-              <h3 className="text-lg font-semibold mb-4">Team Mood</h3>
+              <h3 className="text-lg font-semibold mb-4">Настроение команды</h3>
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <span className="text-sm text-muted-foreground">Overall Sentiment</span>
-                  <Badge className="bg-secondary text-secondary-foreground">Positive</Badge>
+                  <span className="text-sm text-muted-foreground">Общий настрой</span>
+                  <Badge className="bg-secondary text-secondary-foreground">Позитивный</Badge>
                 </div>
                 <div className="h-4 bg-muted rounded-full overflow-hidden">
                   <div className="h-full bg-gradient-to-r from-accent via-secondary to-primary" style={{ width: "70%" }}></div>
                 </div>
                 <div className="pt-4 border-t border-border">
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-sm font-medium">Growth Score</span>
+                    <span className="text-sm font-medium">Рейтинг роста</span>
                     <span className="text-2xl font-bold text-primary">8.5</span>
                   </div>
                   <p className="text-xs text-muted-foreground">
-                    Your company's feedback culture is strong
+                    Культура обратной связи в вашей компании сильна
                   </p>
                 </div>
               </div>
@@ -164,12 +164,12 @@ const CompanyDashboard = () => {
           {/* Messages Table */}
           <Card className="p-6">
             <div className="flex items-center justify-between mb-6">
-              <h3 className="text-lg font-semibold">Recent Messages</h3>
+              <h3 className="text-lg font-semibold">Последние сообщения</h3>
               <div className="flex items-center gap-3">
                 <div className="relative">
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                   <Input
-                    placeholder="Search messages..."
+                    placeholder="Поиск сообщений..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     className="pl-10 w-64"
@@ -186,10 +186,10 @@ const CompanyDashboard = () => {
                 <thead>
                   <tr className="border-b border-border text-left">
                     <th className="pb-3 text-sm font-medium text-muted-foreground">ID</th>
-                    <th className="pb-3 text-sm font-medium text-muted-foreground">Type</th>
-                    <th className="pb-3 text-sm font-medium text-muted-foreground">Date</th>
-                    <th className="pb-3 text-sm font-medium text-muted-foreground">Status</th>
-                    <th className="pb-3 text-sm font-medium text-muted-foreground">Message</th>
+                    <th className="pb-3 text-sm font-medium text-muted-foreground">Тип</th>
+                    <th className="pb-3 text-sm font-medium text-muted-foreground">Дата</th>
+                    <th className="pb-3 text-sm font-medium text-muted-foreground">Статус</th>
+                    <th className="pb-3 text-sm font-medium text-muted-foreground">Сообщение</th>
                     <th className="pb-3 text-sm font-medium text-muted-foreground"></th>
                   </tr>
                 </thead>
@@ -203,9 +203,9 @@ const CompanyDashboard = () => {
                         <Badge
                           variant="outline"
                           className={
-                            message.type === "Complaint"
+                            message.type === "Жалоба"
                               ? "border-accent text-accent"
-                              : message.type === "Praise"
+                              : message.type === "Похвала"
                               ? "border-secondary text-secondary"
                               : "border-primary text-primary"
                           }
@@ -217,9 +217,9 @@ const CompanyDashboard = () => {
                       <td className="py-4">
                         <Badge
                           className={
-                            message.status === "New"
+                            message.status === "Новое"
                               ? "bg-accent text-accent-foreground"
-                              : message.status === "In Progress"
+                              : message.status === "В работе"
                               ? "bg-primary text-primary-foreground"
                               : "bg-secondary text-secondary-foreground"
                           }

@@ -19,24 +19,24 @@ const SendMessage = () => {
   const [messageId] = useState("FB-2024-A7K9X2");
 
   const messageTypes = [
-    { value: "complaint", label: "Complaint", color: "bg-accent/10 text-accent border-accent" },
-    { value: "praise", label: "Praise", color: "bg-secondary/10 text-secondary border-secondary" },
-    { value: "suggestion", label: "Suggestion", color: "bg-primary/10 text-primary border-primary" },
+    { value: "complaint", label: "Жалоба", color: "bg-accent/10 text-accent border-accent" },
+    { value: "praise", label: "Похвала", color: "bg-secondary/10 text-secondary border-secondary" },
+    { value: "suggestion", label: "Предложение", color: "bg-primary/10 text-primary border-primary" },
   ];
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!companyCode || !message || !agreed) {
-      toast.error("Please fill all fields and confirm the terms");
+      toast.error("Пожалуйста, заполните все поля и подтвердите условия");
       return;
     }
     setSubmitted(true);
-    toast.success("Message sent successfully!");
+    toast.success("Сообщение успешно отправлено!");
   };
 
   const copyMessageId = () => {
     navigator.clipboard.writeText(messageId);
-    toast.success("Message ID copied to clipboard!");
+    toast.success("ID сообщения скопирован в буфер обмена!");
   };
 
   if (submitted) {
@@ -46,7 +46,7 @@ const SendMessage = () => {
           <div className="container mx-auto px-6 py-4">
             <Button variant="ghost" size="sm" onClick={() => navigate('/')}>
               <ArrowLeft className="h-4 w-4 mr-2" />
-              Back to Home
+              На главную
             </Button>
           </div>
         </header>
@@ -58,14 +58,14 @@ const SendMessage = () => {
             </div>
             
             <div className="space-y-4">
-              <h1 className="text-3xl font-bold text-foreground">Message Sent Successfully!</h1>
+              <h1 className="text-3xl font-bold text-foreground">Сообщение успешно отправлено!</h1>
               <p className="text-muted-foreground">
-                Your anonymous feedback has been delivered. Save the ID below to check your message status later.
+                Ваш анонимный отзыв доставлен. Сохраните ID ниже, чтобы проверить статус сообщения позже.
               </p>
             </div>
 
             <div className="bg-muted p-6 rounded-lg space-y-4">
-              <Label className="text-sm font-medium text-muted-foreground">Your Message ID</Label>
+              <Label className="text-sm font-medium text-muted-foreground">ID вашего сообщения</Label>
               <div className="flex items-center gap-3">
                 <code className="flex-1 text-2xl font-mono font-bold text-primary bg-background px-4 py-3 rounded-md">
                   {messageId}
@@ -75,16 +75,16 @@ const SendMessage = () => {
                 </Button>
               </div>
               <p className="text-xs text-muted-foreground">
-                Keep this ID safe. You'll need it to track your feedback status.
+                Сохраните этот ID. Он понадобится для отслеживания статуса вашего отзыва.
               </p>
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4">
               <Button className="flex-1" onClick={() => navigate('/check-status')}>
-                Check Status Now
+                Проверить статус
               </Button>
               <Button variant="outline" className="flex-1" onClick={() => navigate('/')}>
-                Back to Home
+                На главную
               </Button>
             </div>
           </Card>
@@ -99,7 +99,7 @@ const SendMessage = () => {
         <div className="container mx-auto px-6 py-4">
           <Button variant="ghost" size="sm" onClick={() => navigate('/')}>
             <ArrowLeft className="h-4 w-4 mr-2" />
-            Back to Home
+            На главную
           </Button>
         </div>
       </header>
@@ -108,17 +108,17 @@ const SendMessage = () => {
         <Card className="max-w-2xl w-full p-8">
           <form onSubmit={handleSubmit} className="space-y-8">
             <div className="space-y-2">
-              <h1 className="text-3xl font-bold text-foreground">Send Anonymous Feedback</h1>
+              <h1 className="text-3xl font-bold text-foreground">Отправить анонимный отзыв</h1>
               <p className="text-muted-foreground">
-                Your message is completely anonymous. No personal information is collected.
+                Ваше сообщение полностью анонимно. Личная информация не собирается.
               </p>
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="company-code">Company Code</Label>
+              <Label htmlFor="company-code">Код компании</Label>
               <Input
                 id="company-code"
-                placeholder="Enter your company's unique code"
+                placeholder="Введите уникальный код вашей компании"
                 value={companyCode}
                 onChange={(e) => setCompanyCode(e.target.value)}
                 className="text-lg"
@@ -126,7 +126,7 @@ const SendMessage = () => {
             </div>
 
             <div className="space-y-3">
-              <Label>Message Type</Label>
+              <Label>Тип сообщения</Label>
               <div className="flex flex-wrap gap-3">
                 {messageTypes.map((type) => (
                   <Button
@@ -144,12 +144,12 @@ const SendMessage = () => {
 
             <div className="space-y-2">
               <div className="flex justify-between items-center">
-                <Label htmlFor="message">Your Message</Label>
+                <Label htmlFor="message">Ваше сообщение</Label>
                 <span className="text-sm text-muted-foreground">{message.length} / 1000</span>
               </div>
               <Textarea
                 id="message"
-                placeholder="Share your honest feedback here..."
+                placeholder="Поделитесь вашим честным отзывом здесь..."
                 value={message}
                 onChange={(e) => setMessage(e.target.value.slice(0, 1000))}
                 className="min-h-[200px] resize-none text-base"
@@ -166,13 +166,13 @@ const SendMessage = () => {
                 htmlFor="terms"
                 className="text-sm text-foreground leading-relaxed cursor-pointer"
               >
-                I confirm that my message is anonymous and honest. I understand that this feedback will be reviewed by my company's HR team.
+                Я подтверждаю, что мое сообщение анонимно и честно. Я понимаю, что этот отзыв будет рассмотрен HR-отделом моей компании.
               </label>
             </div>
 
             <Button type="submit" size="lg" className="w-full text-lg h-12">
               <Send className="mr-2 h-5 w-5" />
-              Send Anonymous Message
+              Отправить анонимное сообщение
             </Button>
           </form>
         </Card>
