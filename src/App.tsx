@@ -106,14 +106,6 @@ const App = () => (
             
             {/* Admin routes */}
             <Route
-              path="/admin"
-              element={
-                <ProtectedRoute requiredRole="admin">
-                  <AdminPanel />
-                </ProtectedRoute>
-              }
-            />
-            <Route
               path="/admin/messages"
               element={
                 <ProtectedRoute requiredRole="admin">
@@ -150,6 +142,14 @@ const App = () => (
               element={
                 <ProtectedRoute requiredRole="admin">
                   <AdminSettings />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin"
+              element={
+                <ProtectedRoute requiredRole="admin">
+                  <AdminPanel />
                 </ProtectedRoute>
               }
             />
