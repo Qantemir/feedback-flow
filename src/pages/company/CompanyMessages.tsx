@@ -8,7 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { FiSearch, FiFilter, FiEye, FiCheckCircle, FiClock, FiX, FiChevronDown, FiCheck, FiMessageSquare } from "react-icons/fi";
+import { FiSearch, FiFilter, FiEye, FiCheckCircle, FiClock, FiX, FiChevronDown, FiCheck, FiMessageSquare, FiAlertCircle } from "react-icons/fi";
 import { CompanyHeader } from "@/components/CompanyHeader";
 import { useAuth } from "@/contexts/AuthContext";
 import { messageApi, companyApi } from "@/services/api";
@@ -31,6 +31,8 @@ const CompanyMessages = () => {
     { value: t("checkStatus.new"), label: t("checkStatus.new") },
     { value: t("checkStatus.inProgress"), label: t("checkStatus.inProgress") },
     { value: t("checkStatus.resolved"), label: t("checkStatus.resolved") },
+    { value: t("checkStatus.rejected"), label: t("checkStatus.rejected") },
+    { value: t("checkStatus.spam"), label: t("checkStatus.spam") },
   ];
 
   const typeOptions = [
@@ -89,6 +91,9 @@ const CompanyMessages = () => {
       case t("messages.reject"):
       case "Отклонено":
         return "bg-muted text-muted-foreground"; /* #99738E */
+      case t("checkStatus.spam"):
+      case "Спам":
+        return "bg-destructive text-destructive-foreground"; /* Red for spam */
       default:
         return "bg-muted text-muted-foreground";
     }
@@ -360,6 +365,14 @@ const CompanyMessages = () => {
                 >
                   <FiX className="h-4 w-4 mr-2" />
                   {t("messages.reject")}
+                </Button>
+                <Button
+                  variant="outline"
+                  onClick={() => handleUpdateStatus(t("checkStatus.spam") as MessageStatus)}
+                  disabled={selectedMessage.status === t("checkStatus.spam") || selectedMessage.status === "Спам"}
+                >
+                  <FiAlertCircle className="h-4 w-4 mr-2" />
+                  {t("checkStatus.spam")}
                 </Button>
               </div>
             </div>

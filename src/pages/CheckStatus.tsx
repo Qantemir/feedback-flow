@@ -6,7 +6,7 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
-import { FiArrowLeft, FiSearch, FiClock, FiCheckCircle, FiMessageSquare } from "react-icons/fi";
+import { FiArrowLeft, FiSearch, FiClock, FiCheckCircle, FiMessageSquare, FiAlertCircle } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { messageApi } from "@/services/api";
@@ -42,6 +42,9 @@ const CheckStatus = () => {
     if (statusLower === t("checkStatus.resolved").toLowerCase() || status === "Resolved" || status === "Решено") {
       return <FiCheckCircle className="h-5 w-5" />;
     }
+    if (statusLower === t("checkStatus.spam").toLowerCase() || status === "Spam" || status === "Спам") {
+      return <FiAlertCircle className="h-5 w-5" />;
+    }
     return <FiMessageSquare className="h-5 w-5" />;
   };
 
@@ -55,6 +58,9 @@ const CheckStatus = () => {
     }
     if (statusLower === t("checkStatus.resolved").toLowerCase() || status === "Resolved" || status === "Решено") {
         return "bg-success text-success-foreground"; /* Green */
+    }
+    if (statusLower === t("checkStatus.spam").toLowerCase() || status === "Spam" || status === "Спам") {
+        return "bg-destructive text-destructive-foreground"; /* Red for spam */
     }
     return "bg-muted text-muted-foreground";
   };

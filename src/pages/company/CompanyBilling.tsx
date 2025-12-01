@@ -49,9 +49,6 @@ const CompanyBilling = () => {
   const messagesUsage = company
     ? Math.round((company.messagesThisMonth || 0) / (company.messagesLimit || 1) * 100)
     : 0;
-  const storageUsage = company
-    ? Math.round((company.storageUsed || 0) / (company.storageLimit || 1) * 100)
-    : 0;
 
   return (
     <div className="min-h-screen bg-background">
@@ -106,37 +103,22 @@ const CompanyBilling = () => {
                   <p className="text-sm font-medium text-foreground mb-2">
                     {t("company.trialPeriodAllFeatures")}
                   </p>
-                  <div className="grid grid-cols-2 gap-4 text-sm">
+                  <div className="text-sm">
                     <div>
                       <span className="text-muted-foreground">{t("sendMessage.message")}: </span>
-                      <span className="font-semibold">{t("company.unlimited")}</span>
-                    </div>
-                    <div>
-                      <span className="text-muted-foreground">{t("admin.storage")}: </span>
                       <span className="font-semibold">{t("company.unlimited")}</span>
                     </div>
                   </div>
                 </div>
               ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                  <div className="space-y-2">
-                    <div className="flex justify-between text-sm">
-                      <span className="text-muted-foreground">{t("admin.messagesThisMonth")}</span>
-                      <span className="font-semibold">
-                        {company?.messagesThisMonth || 0} / {company?.messagesLimit || 0}
-                      </span>
-                    </div>
-                    <Progress value={messagesUsage} className="h-2" />
+                <div className="space-y-2 mb-6">
+                  <div className="flex justify-between text-sm">
+                    <span className="text-muted-foreground">{t("admin.messagesThisMonth")}</span>
+                    <span className="font-semibold">
+                      {company?.messagesThisMonth || 0} / {company?.messagesLimit || 0}
+                    </span>
                   </div>
-                  <div className="space-y-2">
-                    <div className="flex justify-between text-sm">
-                      <span className="text-muted-foreground">{t("admin.storageUsed")}</span>
-                      <span className="font-semibold">
-                        {company?.storageUsed || 0} / {company?.storageLimit || 0} GB
-                      </span>
-                    </div>
-                    <Progress value={storageUsage} className="h-2" />
-                  </div>
+                  <Progress value={messagesUsage} className="h-2" />
                 </div>
               )}
             </Card>
@@ -149,40 +131,95 @@ const CompanyBilling = () => {
               {plans.map((plan) => {
                 const planName = typeof plan.name === "string" ? plan.name : getTranslatedValue(plan.name);
                 const isCurrent = planName === company?.plan || (typeof plan.name === "object" && (plan.name.ru === company?.plan || plan.name.en === company?.plan || plan.name.kk === company?.plan));
+                const isFree = plan.price === 0;
+                const isPro = plan.id === "pro";
+                const isBusiness = plan.id === "business";
+                
+                // Определяем цвета для каждого тарифа
+                let cardBorderColor = "border-border";
+                let cardBgGradient = "";
+                let badgeColor = "bg-muted text-muted-foreground";
+                let buttonVariant: "default" | "outline" | "secondary" = "default";
+                
+                if (isFree) {
+                  cardBorderColor = "border-muted";
+                  badgeColor = "bg-muted text-muted-foreground";
+                  buttonVariant = "outline";
+                } else if (isPro) {
+                  cardBorderColor = "border-primary";
+                  cardBgGradient = "bg-gradient-to-br from-primary/5 to-primary/10";
+                  badgeColor = "bg-primary text-primary-foreground";
+                  buttonVariant = "default";
+                } else if (isBusiness) {
+                  cardBorderColor = "border-secondary";
+                  cardBgGradient = "bg-gradient-to-br from-secondary/5 to-secondary/10";
+                  badgeColor = "bg-secondary text-secondary-foreground";
+                  buttonVariant = "default";
+                }
+                
                 return (
                   <Card
                     key={plan.id}
-                    className={`p-6 ${isCurrent ? "ring-2 ring-primary" : ""}`}
+                    className={`p-6 relative overflow-hidden transition-all hover:shadow-lg ${
+                      isCurrent 
+                        ? `ring-2 ${isPro ? "ring-primary" : isBusiness ? "ring-secondary" : "ring-primary"} ${cardBgGradient}` 
+                        : `${cardBorderColor} ${cardBgGradient}`
+                    }`}
                   >
-                    <div className="space-y-4">
+                    {isCurrent && (
+                      <div className={`absolute top-0 right-0 w-0 h-0 border-l-[60px] border-l-transparent border-t-[60px] ${
+                        isPro ? "border-t-primary" : isBusiness ? "border-t-secondary" : "border-t-primary"
+                      }`} />
+                    )}
+                    <div className="space-y-4 relative z-10">
                       <div>
                         <div className="flex items-center justify-between mb-2">
-                          <h4 className="text-lg font-semibold text-foreground">{getTranslatedValue(plan.name)}</h4>
+                          <h4 className="text-xl font-bold text-foreground">{getTranslatedValue(plan.name)}</h4>
                           {isCurrent && (
-                            <Badge className="bg-primary text-primary-foreground">
+                            <Badge className={`${badgeColor} shadow-sm`}>
                               <FiCheck className="h-3 w-3 mr-1" />
                               {t("company.current")}
                             </Badge>
                           )}
                         </div>
-                        <p className="text-3xl font-bold text-foreground">
-                          {plan.price === 0 ? t("common.free") : `${plan.price} ₸`}
-                          {plan.price > 0 && <span className="text-sm text-muted-foreground">/{t("admin.perMonth")}</span>}
-                        </p>
+                        <div className="flex items-baseline gap-1">
+                          <p className={`text-3xl font-bold ${
+                            isPro ? "text-primary" : isBusiness ? "text-secondary" : "text-foreground"
+                          }`}>
+                            {plan.price === 0 ? t("common.free") : `${plan.price} ₸`}
+                          </p>
+                          {plan.price > 0 && (
+                            <span className="text-sm text-muted-foreground">/{t("admin.perMonth")}</span>
+                          )}
+                        </div>
                       </div>
 
-                      <ul className="space-y-2">
+                      <ul className="space-y-3">
                         {plan.features.map((feature, idx) => (
-                          <li key={idx} className="flex items-start gap-2 text-sm text-foreground">
-                            <FiCheck className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
-                            <span>{getTranslatedValue(feature)}</span>
+                          <li key={idx} className="flex items-start gap-3 text-sm text-foreground">
+                            <div className={`mt-0.5 flex-shrink-0 rounded-full p-0.5 ${
+                              isPro ? "bg-primary/20" : isBusiness ? "bg-secondary/20" : "bg-muted"
+                            }`}>
+                              <FiCheck className={`h-3.5 w-3.5 ${
+                                isPro ? "text-primary" : isBusiness ? "text-secondary" : "text-muted-foreground"
+                              }`} />
+                            </div>
+                            <span className="leading-relaxed">{getTranslatedValue(feature)}</span>
                           </li>
                         ))}
                       </ul>
 
                       <Button
-                        className="w-full"
-                        variant={isCurrent ? "outline" : "default"}
+                        className={`w-full mt-6 ${
+                          isCurrent 
+                            ? "bg-muted text-muted-foreground hover:bg-muted cursor-not-allowed" 
+                            : isPro 
+                              ? "bg-primary hover:bg-primary/90" 
+                              : isBusiness 
+                                ? "bg-secondary hover:bg-secondary/90"
+                                : ""
+                        }`}
+                        variant={isCurrent ? "outline" : buttonVariant}
                         disabled={isCurrent}
                         onClick={() => handleUpgrade(plan.id)}
                       >

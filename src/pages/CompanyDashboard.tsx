@@ -81,6 +81,9 @@ const CompanyDashboard = () => {
     if (status === "Отклонено" || status === t("checkStatus.rejected")) {
       return t("checkStatus.rejected");
     }
+    if (status === "Спам" || status === t("checkStatus.spam")) {
+      return t("checkStatus.spam");
+    }
     return status;
   };
 
@@ -94,6 +97,9 @@ const CompanyDashboard = () => {
     }
     if (status === "Решено" || status === t("checkStatus.resolved")) {
       return "bg-success text-success-foreground";
+    }
+    if (status === "Спам" || status === t("checkStatus.spam")) {
+      return "bg-destructive text-destructive-foreground";
     }
     return "bg-muted text-muted-foreground";
   };

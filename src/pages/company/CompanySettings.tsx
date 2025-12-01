@@ -9,20 +9,21 @@ import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
-import { FiCopy, FiShare2, FiCheckCircle, FiHome } from "react-icons/fi";
+import { FiCopy, FiShare2, FiCheckCircle, FiHome, FiUpload, FiX } from "react-icons/fi";
 import { CompanyHeader } from "@/components/CompanyHeader";
 import { useAuth } from "@/contexts/AuthContext";
 import { companyApi } from "@/services/api";
 import { toast } from "sonner";
-import { motion } from "framer-motion";
 import { useFullscreen } from "@/hooks/use-fullscreen";
 
 const CompanySettings = () => {
   const { t } = useTranslation();
   const { user } = useAuth();
   const [notifications, setNotifications] = useState(true);
-  const [emailDigest, setEmailDigest] = useState(true);
   const [copied, setCopied] = useState(false);
+  const [logoPreview, setLogoPreview] = useState<string | null>(null);
+  const [logoFile, setLogoFile] = useState<File | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const { isFullscreen, toggleFullscreen } = useFullscreen(user?.role || null);
 
@@ -41,8 +42,42 @@ const CompanySettings = () => {
     };
   }, []);
 
+  const handleLogoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      // Проверка типа файла
+      if (!file.type.startsWith("image/")) {
+        toast.error(t("company.logoInvalidFormat"));
+        return;
+      }
+      // Проверка размера (макс 5MB)
+      if (file.size > 5 * 1024 * 1024) {
+        toast.error(t("company.logoTooLarge"));
+        return;
+      }
+      setLogoFile(file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setLogoPreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleRemoveLogo = () => {
+    setLogoPreview(null);
+    setLogoFile(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  };
+
   const handleSave = async () => {
-    // В реальном приложении здесь будет API вызов
+    // В реальном приложении здесь будет API вызов для сохранения логотипа
+    if (logoFile) {
+      // Здесь будет загрузка файла на сервер
+      // await companyApi.uploadLogo(user?.companyId, logoFile);
+    }
     toast.success(t("company.settingsSaved"));
   };
 
@@ -66,6 +101,55 @@ const CompanySettings = () => {
           <Card className="p-6">
             <h3 className="text-lg font-semibold mb-6">{t("company.companyInfo")}</h3>
             <div className="space-y-4">
+              {/* Logo Upload */}
+              <div className="space-y-2">
+                <Label>{t("company.companyLogo")}</Label>
+                <div className="flex items-center gap-4">
+                  <div className="relative">
+                    {logoPreview ? (
+                      <div className="relative">
+                        <img
+                          src={logoPreview}
+                          alt={t("company.companyLogo")}
+                          className="w-24 h-24 object-cover rounded-lg border-2 border-border"
+                        />
+                        <button
+                          type="button"
+                          onClick={handleRemoveLogo}
+                          className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-destructive text-destructive-foreground flex items-center justify-center hover:bg-destructive/90 transition-colors"
+                        >
+                          <FiX className="h-3 w-3" />
+                        </button>
+                      </div>
+                    ) : (
+                      <div className="w-24 h-24 border-2 border-dashed border-border rounded-lg flex items-center justify-center bg-muted">
+                        <FiUpload className="h-8 w-8 text-muted-foreground" />
+                      </div>
+                    )}
+                  </div>
+                  <div className="flex-1">
+                    <input
+                      ref={fileInputRef}
+                      type="file"
+                      accept="image/*"
+                      onChange={handleLogoChange}
+                      className="hidden"
+                      id="logo-upload"
+                    />
+                    <Button
+                      type="button"
+                      variant="outline"
+                      onClick={() => fileInputRef.current?.click()}
+                    >
+                      <FiUpload className="h-4 w-4 mr-2" />
+                      {logoPreview ? t("company.changeLogo") : t("company.uploadLogo")}
+                    </Button>
+                    <p className="text-xs text-muted-foreground mt-2">
+                      {t("company.logoDescription")}
+                    </p>
+                  </div>
+                </div>
+              </div>
               <div className="space-y-2">
                 <Label htmlFor="name">{t("auth.companyName")}</Label>
                 <Input id="name" defaultValue={company?.name} autoComplete="organization" />
@@ -213,9 +297,9 @@ const CompanySettings = () => {
             </Card>
           )}
 
-          {/* Notifications */}
+          {/* Settings */}
           <Card className="p-6">
-            <h3 className="text-lg font-semibold mb-6">{t("company.notifications")}</h3>
+            <h3 className="text-lg font-semibold mb-6">{t("company.preferences")}</h3>
             <div className="space-y-4">
               <div className="flex items-center justify-between">
                 <div className="space-y-0.5">
@@ -225,16 +309,6 @@ const CompanySettings = () => {
                   </p>
                 </div>
                 <Switch checked={notifications} onCheckedChange={setNotifications} />
-              </div>
-              <Separator />
-              <div className="flex items-center justify-between">
-                <div className="space-y-0.5">
-                  <Label>{t("company.dailyDigest")}</Label>
-                  <p className="text-sm text-muted-foreground">
-                    {t("company.dailyDigestDescription")}
-                  </p>
-                </div>
-                <Switch checked={emailDigest} onCheckedChange={setEmailDigest} />
               </div>
               <Separator />
               <div className="flex items-center justify-between">

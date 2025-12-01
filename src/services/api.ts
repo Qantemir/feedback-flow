@@ -182,17 +182,27 @@ export const companyApi = {
   create: async (company: Omit<Company, "id" | "registered" | "messages">): Promise<Company> => {
     await delay(800);
     const registeredDate = new Date().toISOString().split("T")[0];
+    // Если не указана trialEndDate, вычисляем автоматически (2 месяца от регистрации)
+    const trialEndDate = company.trialEndDate || (() => {
+      const endDate = new Date(registeredDate);
+      endDate.setMonth(endDate.getMonth() + 2);
+      return endDate.toISOString().split("T")[0];
+    })();
+    
+    // Если статус "Пробная", устанавливаем неограниченные лимиты
+    const isTrial = company.status === "Пробная";
+    
     const newCompany: Company = {
       ...company,
       id: mockCompanies.length + 1,
       registered: registeredDate,
       messages: 0,
-      // Если не указана trialEndDate, вычисляем автоматически (2 месяца от регистрации)
-      trialEndDate: company.trialEndDate || (() => {
-        const endDate = new Date(registeredDate);
-        endDate.setMonth(endDate.getMonth() + 2);
-        return endDate.toISOString().split("T")[0];
-      })(),
+      trialEndDate,
+      // В пробный период - неограниченные лимиты
+      messagesLimit: isTrial ? 999999 : company.messagesLimit,
+      storageLimit: isTrial ? 999999 : company.storageLimit,
+      messagesThisMonth: 0,
+      storageUsed: 0,
     };
     mockCompanies.push(newCompany);
     return newCompany;
@@ -271,33 +281,134 @@ export const plansApi = {
     const defaultPlans: SubscriptionPlan[] = [
       {
         id: "free",
-        name: "Бесплатный",
+        name: {
+          ru: "Бесплатный",
+          en: "Free",
+          kk: "Тегін"
+        },
         price: 0,
         messagesLimit: freePlanSettings.messagesLimit,
         storageLimit: freePlanSettings.storageLimit,
         isFree: true,
         freePeriodDays: freePlanSettings.freePeriodDays,
         features: [
-          `До ${freePlanSettings.messagesLimit} сообщений в месяц`,
-          `${freePlanSettings.storageLimit} GB хранилища`,
-          "Базовая аналитика",
+          {
+            ru: `До ${freePlanSettings.messagesLimit} сообщений в месяц`,
+            en: `Up to ${freePlanSettings.messagesLimit} messages per month`,
+            kk: `Айына ${freePlanSettings.messagesLimit} хабарламаға дейін`
+          },
+          {
+            ru: "Просмотр и управление сообщениями",
+            en: "View and manage messages",
+            kk: "Хабарламаларды көру және басқару"
+          },
+          {
+            ru: "Базовая статистика",
+            en: "Basic statistics",
+            kk: "Негізгі статистика"
+          },
+          {
+            ru: "Распределение по типам сообщений",
+            en: "Message type distribution",
+            kk: "Хабарлама түрлері бойынша бөлу"
+          }
         ],
       },
       {
         id: "pro",
-        name: "Про",
+        name: {
+          ru: "Про",
+          en: "Pro",
+          kk: "Про"
+        },
         price: 2999,
         messagesLimit: 100,
         storageLimit: 10,
-        features: ["До 100 сообщений в месяц", "10 GB хранилища", "Расширенная аналитика", "Приоритетная поддержка"],
+        features: [
+          {
+            ru: "До 100 сообщений в месяц",
+            en: "Up to 100 messages per month",
+            kk: "Айына 100 хабарламаға дейін"
+          },
+          {
+            ru: "Все функции бесплатного плана",
+            en: "All free plan features",
+            kk: "Тегін жоспардың барлық функциялары"
+          },
+          {
+            ru: "Расширенная аналитика",
+            en: "Advanced analytics",
+            kk: "Кеңейтілген аналитика"
+          },
+          {
+            ru: "Метрики роста и рейтинги",
+            en: "Growth metrics and ratings",
+            kk: "Өсу метрикалары және рейтингтер"
+          },
+          {
+            ru: "Анализ настроения команды",
+            en: "Team mood analysis",
+            kk: "Команда көңіл-күйін талдау"
+          },
+          {
+            ru: "Достижения и прогресс",
+            en: "Achievements and progress",
+            kk: "Жетістіктер және прогресс"
+          },
+          {
+            ru: "Приоритетная поддержка",
+            en: "Priority support",
+            kk: "Басымдықты қолдау"
+          }
+        ],
       },
       {
         id: "business",
-        name: "Бизнес",
+        name: {
+          ru: "Бизнес",
+          en: "Business",
+          kk: "Бизнес"
+        },
         price: 9999,
         messagesLimit: 500,
         storageLimit: 50,
-        features: ["До 500 сообщений в месяц", "50 GB хранилища", "Полная аналитика", "24/7 поддержка", "API доступ"],
+        features: [
+          {
+            ru: "До 500 сообщений в месяц",
+            en: "Up to 500 messages per month",
+            kk: "Айына 500 хабарламаға дейін"
+          },
+          {
+            ru: "Все функции плана Про",
+            en: "All Pro plan features",
+            kk: "Про жоспарының барлық функциялары"
+          },
+          {
+            ru: "Полная аналитика",
+            en: "Full analytics",
+            kk: "Толық аналитика"
+          },
+          {
+            ru: "Детальные отчеты",
+            en: "Detailed reports",
+            kk: "Толық есептер"
+          },
+          {
+            ru: "Экспорт отчетов в PDF",
+            en: "PDF report export",
+            kk: "PDF есептерді экспорттау"
+          },
+          {
+            ru: "Анализ трендов",
+            en: "Trends analysis",
+            kk: "Трендтерді талдау"
+          },
+          {
+            ru: "24/7 поддержка",
+            en: "24/7 support",
+            kk: "24/7 қолдау"
+          }
+        ],
       },
     ];
     return [...defaultPlans, ...customPlans];
