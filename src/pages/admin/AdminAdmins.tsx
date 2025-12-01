@@ -141,11 +141,11 @@ const AdminAdmins = () => {
                   <div className="space-y-4">
                     <div className="space-y-2">
                       <Label>{t("admin.name")}</Label>
-                      <Input placeholder={t("admin.adminNamePlaceholder")} />
+                      <Input placeholder={t("admin.adminNamePlaceholder")} autoComplete="name" />
                     </div>
                     <div className="space-y-2">
                       <Label>{t("auth.email")}</Label>
-                      <Input type="email" placeholder="admin@example.com" />
+                      <Input type="email" placeholder="admin@example.com" autoComplete="username" />
                     </div>
                     <div className="space-y-2">
                       <Label>{t("admin.role")}</Label>

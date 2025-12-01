@@ -129,6 +129,8 @@
     "noMessages": "No messages",
     "viewAll": "View All",
     "companyCode": "Company Code",
+    "companyInfo": "Company Information",
+    "codeDescription": "This code is used by employees to send anonymous feedback. Share it with your team.",
     "shareLink": "Share Link for Employees",
     "trialPeriod": "Trial Period",
     "trialEnds": "Trial period ends",

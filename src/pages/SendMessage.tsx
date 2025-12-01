@@ -228,6 +228,7 @@ const SendMessage = () => {
                     }}
                     className="text-lg font-mono tracking-wider text-center uppercase"
                     maxLength={20}
+                    autoComplete="off"
                   />
                   <Button
                     type="button"

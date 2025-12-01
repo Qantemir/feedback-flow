@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
 import { Card } from "@/components/ui/card";
@@ -22,6 +22,7 @@ const CompanySettings = () => {
   const [notifications, setNotifications] = useState(true);
   const [emailDigest, setEmailDigest] = useState(true);
   const [copied, setCopied] = useState(false);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const { data: company, isLoading } = useQuery({
     queryKey: ["company", user?.companyId],
@@ -29,6 +30,14 @@ const CompanySettings = () => {
     enabled: !!user?.companyId,
   });
 
+  // Очистка таймеров при размонтировании
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, []);
 
   const handleSave = async () => {
     // В реальном приложении здесь будет API вызов
@@ -57,7 +66,7 @@ const CompanySettings = () => {
             <div className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="name">{t("auth.companyName")}</Label>
-                <Input id="name" defaultValue={company?.name} />
+                <Input id="name" defaultValue={company?.name} autoComplete="organization" />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="code">{t("company.companyCode")}</Label>
@@ -77,7 +86,10 @@ const CompanySettings = () => {
                         navigator.clipboard.writeText(company.code);
                         setCopied(true);
                         toast.success(t("company.codeCopied"));
-                        setTimeout(() => setCopied(false), 2000);
+                        if (timeoutRef.current) {
+                          clearTimeout(timeoutRef.current);
+                        }
+                        timeoutRef.current = setTimeout(() => setCopied(false), 2000);
                       }
                     }}
                   >
@@ -94,7 +106,7 @@ const CompanySettings = () => {
               </div>
               <div className="space-y-2">
                 <Label htmlFor="email">{t("auth.adminEmail")}</Label>
-                <Input id="email" type="email" defaultValue={company?.adminEmail} />
+                <Input id="email" type="email" defaultValue={company?.adminEmail} autoComplete="email" />
               </div>
             </div>
           </Card>
@@ -128,7 +140,10 @@ const CompanySettings = () => {
                           navigator.clipboard.writeText(company.code);
                           setCopied(true);
                           toast.success(t("company.codeCopiedToClipboard"));
-                          setTimeout(() => setCopied(false), 2000);
+                          if (timeoutRef.current) {
+                            clearTimeout(timeoutRef.current);
+                          }
+                          timeoutRef.current = setTimeout(() => setCopied(false), 2000);
                         }}
                       >
                         {copied ? (

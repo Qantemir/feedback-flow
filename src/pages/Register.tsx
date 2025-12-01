@@ -129,6 +129,7 @@ const Register = () => {
                 placeholder={t("auth.companyName")}
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                autoComplete="organization"
                 required
               />
             </div>
@@ -141,6 +142,7 @@ const Register = () => {
                 placeholder="admin@company.com"
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                autoComplete="username"
                 required
               />
             </div>

@@ -142,6 +142,7 @@ const Welcome = () => {
                       }}
                       className="text-base sm:text-lg font-mono tracking-wider text-center uppercase"
                       maxLength={20}
+                      autoComplete="off"
                     />
                     <Button
                       onClick={handleValidateCode}

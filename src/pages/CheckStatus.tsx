@@ -103,6 +103,7 @@ const CheckStatus = () => {
                     value={messageId}
                     onChange={(e) => setMessageId(e.target.value)}
                     className="text-lg font-mono"
+                    autoComplete="off"
                   />
                   <Button type="submit" size="lg">
                     <FiSearch className="h-5 w-5 mr-2" />
