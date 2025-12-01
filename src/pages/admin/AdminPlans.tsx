@@ -199,7 +199,7 @@ const AdminPlans = () => {
     newPlan.customFeatures.forEach((feature) => {
       if (feature.ru.trim() || feature.en.trim() || feature.kk.trim()) {
         features.push(feature);
-      }
+    }
     });
 
     // Определяем лимиты (0 = без ограничений)
@@ -450,12 +450,12 @@ const AdminPlans = () => {
                         <div className="space-y-2">
                           <div className="space-y-2">
                             <Label className="text-xs text-muted-foreground">Русский</Label>
-                            <Input
-                              placeholder={t("admin.planNameExample")}
+                        <Input
+                          placeholder={t("admin.planNameExample")}
                               value={newPlan.name.ru}
                               onChange={(e) => setNewPlan({ ...newPlan, name: { ...newPlan.name, ru: e.target.value } })}
                               autoComplete="off"
-                            />
+                        />
                           </div>
                           <div className="space-y-2">
                             <Label className="text-xs text-muted-foreground">English</Label>

@@ -21,9 +21,23 @@ import AdminMessages from "./pages/admin/AdminMessages";
 import AdminPlans from "./pages/admin/AdminPlans";
 import AdminAnalytics from "./pages/admin/AdminAnalytics";
 import AdminAdmins from "./pages/admin/AdminAdmins";
+import AdminSettings from "./pages/admin/AdminSettings";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
+
+// Применяем полноэкранный режим при загрузке
+const applyFullscreenOnLoad = () => {
+  const companyFullscreen = localStorage.getItem("feedbackhub_fullscreen_mode_company");
+  const adminFullscreen = localStorage.getItem("feedbackhub_fullscreen_mode_admin");
+  
+  if (companyFullscreen === "true" || adminFullscreen === "true") {
+    document.body.classList.add("fullscreen-mode");
+  }
+};
+
+// Применяем при загрузке
+applyFullscreenOnLoad();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
@@ -128,6 +142,14 @@ const App = () => (
               element={
                 <ProtectedRoute requiredRole="admin">
                   <AdminAdmins />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/settings"
+              element={
+                <ProtectedRoute requiredRole="admin">
+                  <AdminSettings />
                 </ProtectedRoute>
               }
             />

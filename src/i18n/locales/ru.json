@@ -187,6 +187,8 @@
     "emailNotificationsDescription": "Получать уведомления на email о новых сообщениях и обновлениях",
     "dailyDigest": "Ежедневная сводка",
     "dailyDigestDescription": "Получать ежедневную сводку всех сообщений и статистики",
+    "fullscreenMode": "Полноэкранный режим",
+    "fullscreenModeDescription": "Скрыть элементы браузера для максимального рабочего пространства. Режим сохраняется после перезагрузки страницы.",
     "dangerZone": "Опасная зона",
     "deleteCompany": "Удалить компанию",
     "deleteCompanyWarning": "Это действие нельзя отменить. Все данные компании будут безвозвратно удалены.",
@@ -313,7 +315,17 @@
     "role": "Роль",
     "superAdminFull": "Супер администратор",
     "customFeatures": "Дополнительные функции",
-    "customFeature": "Функция"
+    "customFeature": "Функция",
+    "displaySettings": "Настройки отображения",
+    "fullscreenMode": "Полноэкранный режим",
+    "fullscreenModeDescription": "Скрыть элементы браузера для максимального рабочего пространства. Режим сохраняется после перезагрузки страницы.",
+    "notifications": "Уведомления",
+    "emailNotifications": "Email уведомления",
+    "emailNotificationsDescription": "Получать уведомления на email о новых сообщениях и обновлениях",
+    "dailyDigest": "Ежедневная сводка",
+    "dailyDigestDescription": "Получать ежедневную сводку всех сообщений и статистики",
+    "settingsSaved": "Настройки сохранены",
+    "saveChanges": "Сохранить изменения"
   },
   "messages": {
     "title": "Сообщения",

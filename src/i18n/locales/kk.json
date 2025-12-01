@@ -186,6 +186,8 @@
     "emailNotificationsDescription": "Жаңа хабарламалар мен жаңартулар туралы email хабарландыруларды алу",
     "dailyDigest": "Күнделікті жинақ",
     "dailyDigestDescription": "Барлық хабарламалар мен статистиканың күнделікті жинағын алу",
+    "fullscreenMode": "Толық экран режимі",
+    "fullscreenModeDescription": "Максималды жұмыс кеңістігі үшін браузер элементтерін жасыру. Режим бетті қайта жүктегеннен кейін сақталады.",
     "dangerZone": "Қауіпті аймақ",
     "deleteCompany": "Компанияны жою",
     "deleteCompanyWarning": "Бұл әрекетті болдырмауға болмайды. Компанияның барлық деректері мәңгі жойылады.",
@@ -312,7 +314,17 @@
     "role": "Рөл",
     "superAdminFull": "Супер әкімші",
     "customFeatures": "Қосымша функциялар",
-    "customFeature": "Функция"
+    "customFeature": "Функция",
+    "displaySettings": "Көрініс баптаулары",
+    "fullscreenMode": "Толық экран режимі",
+    "fullscreenModeDescription": "Максималды жұмыс кеңістігі үшін браузер элементтерін жасыру. Режим бетті қайта жүктегеннен кейін сақталады.",
+    "notifications": "Хабарландырулар",
+    "emailNotifications": "Email хабарландырулары",
+    "emailNotificationsDescription": "Жаңа хабарламалар мен жаңартулар туралы email хабарландыруларды алу",
+    "dailyDigest": "Күнделікті жинақ",
+    "dailyDigestDescription": "Барлық хабарламалар мен статистиканың күнделікті жинағын алу",
+    "settingsSaved": "Баптаулар сақталды",
+    "saveChanges": "Өзгерістерді сақтау"
   },
   "messages": {
     "title": "Хабарламалар",

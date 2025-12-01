@@ -48,13 +48,13 @@ const CheckStatus = () => {
   const getStatusColor = (status: string) => {
     const statusLower = status.toLowerCase();
     if (statusLower === t("checkStatus.new").toLowerCase() || status === "New" || status === "Новое") {
-      return "bg-accent text-accent-foreground"; /* #F64C72 */
+        return "bg-accent text-accent-foreground"; /* #F64C72 */
     }
     if (statusLower === t("checkStatus.inProgress").toLowerCase() || status === "In Progress" || status === "В работе") {
-      return "bg-secondary text-secondary-foreground"; /* #553D67 */
+        return "bg-secondary text-secondary-foreground"; /* #553D67 */
     }
     if (statusLower === t("checkStatus.resolved").toLowerCase() || status === "Resolved" || status === "Решено") {
-      return "bg-success text-success-foreground"; /* Green */
+        return "bg-success text-success-foreground"; /* Green */
     }
     return "bg-muted text-muted-foreground";
   };

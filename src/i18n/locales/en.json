@@ -186,6 +186,8 @@
     "emailNotificationsDescription": "Receive email notifications about new messages and updates",
     "dailyDigest": "Daily Digest",
     "dailyDigestDescription": "Receive daily summary of all messages and statistics",
+    "fullscreenMode": "Fullscreen Mode",
+    "fullscreenModeDescription": "Hide browser elements for maximum workspace. Mode persists after page reload.",
     "dangerZone": "Danger Zone",
     "deleteCompany": "Delete Company",
     "deleteCompanyWarning": "This action cannot be undone. All company data will be permanently deleted.",
@@ -312,7 +314,17 @@
     "role": "Role",
     "superAdminFull": "Super Administrator",
     "customFeatures": "Custom Features",
-    "customFeature": "Feature"
+    "customFeature": "Feature",
+    "displaySettings": "Display Settings",
+    "fullscreenMode": "Fullscreen Mode",
+    "fullscreenModeDescription": "Hide browser elements for maximum workspace. Mode persists after page reload.",
+    "notifications": "Notifications",
+    "emailNotifications": "Email Notifications",
+    "emailNotificationsDescription": "Receive email notifications about new messages and updates",
+    "dailyDigest": "Daily Digest",
+    "dailyDigestDescription": "Receive daily summary of all messages and statistics",
+    "settingsSaved": "Settings saved",
+    "saveChanges": "Save Changes"
   },
   "messages": {
     "title": "Messages",

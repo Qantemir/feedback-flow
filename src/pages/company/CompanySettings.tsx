@@ -15,6 +15,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { companyApi } from "@/services/api";
 import { toast } from "sonner";
 import { motion } from "framer-motion";
+import { useFullscreen } from "@/hooks/use-fullscreen";
 
 const CompanySettings = () => {
   const { t } = useTranslation();
@@ -23,6 +24,7 @@ const CompanySettings = () => {
   const [emailDigest, setEmailDigest] = useState(true);
   const [copied, setCopied] = useState(false);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const { isFullscreen, toggleFullscreen } = useFullscreen(user?.role || null);
 
   const { data: company, isLoading } = useQuery({
     queryKey: ["company", user?.companyId],
@@ -233,6 +235,16 @@ const CompanySettings = () => {
                   </p>
                 </div>
                 <Switch checked={emailDigest} onCheckedChange={setEmailDigest} />
+              </div>
+              <Separator />
+              <div className="flex items-center justify-between">
+                <div className="space-y-0.5">
+                  <Label>{t("company.fullscreenMode")}</Label>
+                  <p className="text-sm text-muted-foreground">
+                    {t("company.fullscreenModeDescription")}
+                  </p>
+                </div>
+                <Switch checked={isFullscreen} onCheckedChange={toggleFullscreen} />
               </div>
             </div>
           </Card>
