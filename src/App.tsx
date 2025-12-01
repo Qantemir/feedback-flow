@@ -1,3 +1,4 @@
+import { lazy, Suspense } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -5,24 +6,26 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
-import Welcome from "./pages/Welcome";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
-import SendMessage from "./pages/SendMessage";
-import CheckStatus from "./pages/CheckStatus";
-import CompanyDashboard from "./pages/CompanyDashboard";
-import CompanyMessages from "./pages/company/CompanyMessages";
-import CompanyGrowth from "./pages/company/CompanyGrowth";
-import CompanyReports from "./pages/company/CompanyReports";
-import CompanyBilling from "./pages/company/CompanyBilling";
-import CompanySettings from "./pages/company/CompanySettings";
-import AdminPanel from "./pages/AdminPanel";
-import AdminMessages from "./pages/admin/AdminMessages";
-import AdminPlans from "./pages/admin/AdminPlans";
-import AdminAnalytics from "./pages/admin/AdminAnalytics";
-import AdminAdmins from "./pages/admin/AdminAdmins";
-import AdminSettings from "./pages/admin/AdminSettings";
-import NotFound from "./pages/NotFound";
+
+// Lazy load pages for code splitting
+const Welcome = lazy(() => import("./pages/Welcome"));
+const Login = lazy(() => import("./pages/Login"));
+const Register = lazy(() => import("./pages/Register"));
+const SendMessage = lazy(() => import("./pages/SendMessage"));
+const CheckStatus = lazy(() => import("./pages/CheckStatus"));
+const CompanyDashboard = lazy(() => import("./pages/CompanyDashboard"));
+const CompanyMessages = lazy(() => import("./pages/company/CompanyMessages"));
+const CompanyGrowth = lazy(() => import("./pages/company/CompanyGrowth"));
+const CompanyReports = lazy(() => import("./pages/company/CompanyReports"));
+const CompanyBilling = lazy(() => import("./pages/company/CompanyBilling"));
+const CompanySettings = lazy(() => import("./pages/company/CompanySettings"));
+const AdminPanel = lazy(() => import("./pages/AdminPanel"));
+const AdminMessages = lazy(() => import("./pages/admin/AdminMessages"));
+const AdminPlans = lazy(() => import("./pages/admin/AdminPlans"));
+const AdminAnalytics = lazy(() => import("./pages/admin/AdminAnalytics"));
+const AdminAdmins = lazy(() => import("./pages/admin/AdminAdmins"));
+const AdminSettings = lazy(() => import("./pages/admin/AdminSettings"));
+const NotFound = lazy(() => import("./pages/NotFound"));
 
 const queryClient = new QueryClient();
 
@@ -39,6 +42,13 @@ const applyFullscreenOnLoad = () => {
 // Применяем при загрузке
 applyFullscreenOnLoad();
 
+// Loading component for Suspense
+const PageLoader = () => (
+  <div className="flex items-center justify-center min-h-screen">
+    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900"></div>
+  </div>
+);
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <AuthProvider>
@@ -46,117 +56,119 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
-        <Routes>
-            {/* Public routes */}
-          <Route path="/" element={<Welcome />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-          <Route path="/send-message" element={<SendMessage />} />
-          <Route path="/check-status" element={<CheckStatus />} />
-            
-            {/* Company routes */}
-            <Route
-              path="/company"
-              element={
-                <ProtectedRoute requiredRole="company">
-                  <CompanyDashboard />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/company/messages"
-              element={
-                <ProtectedRoute requiredRole="company">
-                  <CompanyMessages />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/company/growth"
-              element={
-                <ProtectedRoute requiredRole="company">
-                  <CompanyGrowth />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/company/reports"
-              element={
-                <ProtectedRoute requiredRole="company">
-                  <CompanyReports />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/company/billing"
-              element={
-                <ProtectedRoute requiredRole="company">
-                  <CompanyBilling />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/company/settings"
-              element={
-                <ProtectedRoute requiredRole="company">
-                  <CompanySettings />
-                </ProtectedRoute>
-              }
-            />
-            
-            {/* Admin routes */}
-            <Route
-              path="/admin/messages"
-              element={
-                <ProtectedRoute requiredRole="admin">
-                  <AdminMessages />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/admin/plans"
-              element={
-                <ProtectedRoute requiredRole="admin">
-                  <AdminPlans />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/admin/analytics"
-              element={
-                <ProtectedRoute requiredRole="admin">
-                  <AdminAnalytics />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/admin/admins"
-              element={
-                <ProtectedRoute requiredRole="admin">
-                  <AdminAdmins />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/admin/settings"
-              element={
-                <ProtectedRoute requiredRole="admin">
-                  <AdminSettings />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/admin"
-              element={
-                <ProtectedRoute requiredRole="admin">
-                  <AdminPanel />
-                </ProtectedRoute>
-              }
-            />
-            
-            {/* Catch-all */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <Suspense fallback={<PageLoader />}>
+          <Routes>
+              {/* Public routes */}
+            <Route path="/" element={<Welcome />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+            <Route path="/send-message" element={<SendMessage />} />
+            <Route path="/check-status" element={<CheckStatus />} />
+              
+              {/* Company routes */}
+              <Route
+                path="/company"
+                element={
+                  <ProtectedRoute requiredRole="company">
+                    <CompanyDashboard />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/company/messages"
+                element={
+                  <ProtectedRoute requiredRole="company">
+                    <CompanyMessages />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/company/growth"
+                element={
+                  <ProtectedRoute requiredRole="company">
+                    <CompanyGrowth />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/company/reports"
+                element={
+                  <ProtectedRoute requiredRole="company">
+                    <CompanyReports />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/company/billing"
+                element={
+                  <ProtectedRoute requiredRole="company">
+                    <CompanyBilling />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/company/settings"
+                element={
+                  <ProtectedRoute requiredRole="company">
+                    <CompanySettings />
+                  </ProtectedRoute>
+                }
+              />
+              
+              {/* Admin routes */}
+              <Route
+                path="/admin/messages"
+                element={
+                  <ProtectedRoute requiredRole="admin">
+                    <AdminMessages />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/admin/plans"
+                element={
+                  <ProtectedRoute requiredRole="admin">
+                    <AdminPlans />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/admin/analytics"
+                element={
+                  <ProtectedRoute requiredRole="admin">
+                    <AdminAnalytics />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/admin/admins"
+                element={
+                  <ProtectedRoute requiredRole="admin">
+                    <AdminAdmins />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/admin/settings"
+                element={
+                  <ProtectedRoute requiredRole="admin">
+                    <AdminSettings />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/admin"
+                element={
+                  <ProtectedRoute requiredRole="admin">
+                    <AdminPanel />
+                  </ProtectedRoute>
+                }
+              />
+              
+              {/* Catch-all */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </Suspense>
       </BrowserRouter>
     </TooltipProvider>
     </AuthProvider>
