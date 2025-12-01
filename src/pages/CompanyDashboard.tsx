@@ -223,6 +223,7 @@ const CompanyDashboard = () => {
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     className="pl-10 w-full sm:w-64 text-sm sm:text-base"
+                    autoComplete="off"
                   />
                 </div>
                 <Button variant="outline" size="icon" className="flex-shrink-0">

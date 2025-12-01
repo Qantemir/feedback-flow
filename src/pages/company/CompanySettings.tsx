@@ -76,6 +76,7 @@ const CompanySettings = () => {
                     value={company?.code || ""}
                     disabled
                     className="text-lg font-mono tracking-wider font-bold uppercase"
+                    autoComplete="off"
                   />
                   <Button
                     type="button"
@@ -170,6 +171,7 @@ const CompanySettings = () => {
                         value={`${window.location.origin}/send-message?code=${company.code}`}
                         readOnly
                         className="font-mono text-sm"
+                        autoComplete="off"
                       />
                       <Button
                         variant="outline"

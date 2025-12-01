@@ -123,6 +123,7 @@ const CompanyMessages = () => {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="pl-10 text-sm sm:text-base"
+                  autoComplete="off"
                 />
               </div>
               <Listbox value={statusFilter} onChange={setStatusFilter}>

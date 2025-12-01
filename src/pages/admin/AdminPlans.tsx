@@ -348,6 +348,7 @@ const AdminPlans = () => {
                             })
                           }
                           min="0"
+                          autoComplete="off"
                         />
                       </div>
 
@@ -363,6 +364,7 @@ const AdminPlans = () => {
                             })
                           }
                           min="0"
+                          autoComplete="off"
                         />
                       </div>
 
@@ -379,6 +381,7 @@ const AdminPlans = () => {
                           }
                           min="0"
                           placeholder={t("admin.unlimitedTimePlaceholder")}
+                          autoComplete="off"
                         />
                         <p className="text-xs text-muted-foreground">
                           {t("admin.unlimitedTimeDescription")}
@@ -451,6 +454,7 @@ const AdminPlans = () => {
                               placeholder={t("admin.planNameExample")}
                               value={newPlan.name.ru}
                               onChange={(e) => setNewPlan({ ...newPlan, name: { ...newPlan.name, ru: e.target.value } })}
+                              autoComplete="off"
                             />
                           </div>
                           <div className="space-y-2">
@@ -459,6 +463,7 @@ const AdminPlans = () => {
                               placeholder="e.g., Premium"
                               value={newPlan.name.en}
                               onChange={(e) => setNewPlan({ ...newPlan, name: { ...newPlan.name, en: e.target.value } })}
+                              autoComplete="off"
                             />
                           </div>
                           <div className="space-y-2">
@@ -467,6 +472,7 @@ const AdminPlans = () => {
                               placeholder="мысалы, Премиум"
                               value={newPlan.name.kk}
                               onChange={(e) => setNewPlan({ ...newPlan, name: { ...newPlan.name, kk: e.target.value } })}
+                              autoComplete="off"
                             />
                           </div>
                         </div>
@@ -480,6 +486,7 @@ const AdminPlans = () => {
                           min="0"
                           value={newPlan.price}
                           onChange={(e) => setNewPlan({ ...newPlan, price: parseInt(e.target.value) || 0 })}
+                          autoComplete="off"
                         />
                       </div>
                     </div>
@@ -501,6 +508,7 @@ const AdminPlans = () => {
                                 min="0"
                                 value={newPlan.messagesLimit || ""}
                                 onChange={(e) => setNewPlan({ ...newPlan, messagesLimit: parseInt(e.target.value) || 0 })}
+                                autoComplete="off"
                               />
                               <p className="text-xs text-muted-foreground">
                                 {t("admin.unlimitedMessagesHint")}
@@ -517,6 +525,7 @@ const AdminPlans = () => {
                                 min="0"
                                 value={newPlan.storageLimit || ""}
                                 onChange={(e) => setNewPlan({ ...newPlan, storageLimit: parseInt(e.target.value) || 0 })}
+                                autoComplete="off"
                               />
                               <p className="text-xs text-muted-foreground">
                                 {t("admin.unlimitedStorageHint")}
@@ -610,6 +619,7 @@ const AdminPlans = () => {
                                   updated[idx] = { ...updated[idx], ru: e.target.value };
                                   setNewPlan({ ...newPlan, customFeatures: updated });
                                 }}
+                                autoComplete="off"
                               />
                               <Input
                                 placeholder="English"
@@ -619,6 +629,7 @@ const AdminPlans = () => {
                                   updated[idx] = { ...updated[idx], en: e.target.value };
                                   setNewPlan({ ...newPlan, customFeatures: updated });
                                 }}
+                                autoComplete="off"
                               />
                               <Input
                                 placeholder="Қазақша"
@@ -628,6 +639,7 @@ const AdminPlans = () => {
                                   updated[idx] = { ...updated[idx], kk: e.target.value };
                                   setNewPlan({ ...newPlan, customFeatures: updated });
                                 }}
+                                autoComplete="off"
                               />
                             </div>
                           </div>

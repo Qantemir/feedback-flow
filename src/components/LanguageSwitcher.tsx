@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { Listbox, Transition } from '@headlessui/react';
-import { Check, ChevronDown, Globe } from 'lucide-react';
+import { FiCheck, FiChevronDown, FiGlobe } from 'react-icons/fi';
 import { Fragment } from 'react';
 import { cn } from '@/lib/utils';
 
@@ -29,13 +29,13 @@ export const LanguageSwitcher = () => {
             )}
           >
             <span className="flex items-center gap-2">
-              <Globe className="h-4 w-4 text-muted-foreground" />
+              <FiGlobe className="h-4 w-4 text-muted-foreground" />
               <span className="block truncate font-medium text-foreground">
                 {currentLanguage.flag} {currentLanguage.name}
               </span>
             </span>
             <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-              <ChevronDown
+              <FiChevronDown
                 className={cn(
                   "h-4 w-4 text-muted-foreground transition-transform",
                   open && "rotate-180"
@@ -80,7 +80,7 @@ export const LanguageSwitcher = () => {
                             active ? "text-white" : "text-primary"
                           )}
                         >
-                          <Check className="h-5 w-5" aria-hidden="true" />
+                          <FiCheck className="h-5 w-5" aria-hidden="true" />
                         </span>
                       ) : null}
                     </>

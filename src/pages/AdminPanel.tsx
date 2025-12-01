@@ -108,6 +108,7 @@ const AdminPanel = () => {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="pl-10 text-sm sm:text-base"
+                  autoComplete="off"
                 />
               </div>
               <Button variant="outline" size="icon" className="flex-shrink-0">
