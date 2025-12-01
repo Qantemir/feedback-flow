@@ -8,6 +8,9 @@ export default defineConfig(({ mode }) => ({
   server: {
     host: "::",
     port: 8080,
+    headers: {
+      "Permissions-Policy": "geolocation=(), microphone=(), camera=(), payment=(), usb=(), magnetometer=(), gyroscope=(), speaker=()",
+    },
   },
   plugins: [react(), mode === "development" && componentTagger()].filter(Boolean),
   resolve: {
@@ -19,63 +22,30 @@ export default defineConfig(({ mode }) => ({
     rollupOptions: {
       output: {
         manualChunks(id) {
-          // React core
-          if (id.includes('node_modules/react') || id.includes('node_modules/react-dom')) {
-            return 'react-vendor';
-          }
-          
-          // React Router
-          if (id.includes('node_modules/react-router')) {
-            return 'router-vendor';
-          }
-          
-          // Radix UI components
-          if (id.includes('node_modules/@radix-ui')) {
-            return 'radix-vendor';
-          }
-          
-          // React Query
-          if (id.includes('node_modules/@tanstack/react-query')) {
-            return 'query-vendor';
-          }
-          
-          // Recharts (charts library - can be large)
+          // Recharts - large library, separate chunk (lazy loaded)
           if (id.includes('node_modules/recharts')) {
             return 'chart-vendor';
           }
           
-          // Form libraries
-          if (id.includes('node_modules/react-hook-form') || id.includes('node_modules/@hookform') || id.includes('node_modules/zod')) {
-            return 'form-vendor';
+          // Radix UI - large collection of components
+          if (id.includes('node_modules/@radix-ui')) {
+            return 'radix-vendor';
           }
           
-          // i18n
-          if (id.includes('node_modules/i18next') || id.includes('node_modules/react-i18next')) {
-            return 'i18n-vendor';
-          }
-          
-          // Icons
-          if (id.includes('node_modules/lucide-react') || id.includes('node_modules/react-icons')) {
-            return 'icons-vendor';
-          }
-          
-          // Date libraries
-          if (id.includes('node_modules/date-fns') || id.includes('node_modules/react-day-picker')) {
-            return 'date-vendor';
-          }
-          
-          // Other large dependencies
-          if (id.includes('node_modules/framer-motion')) {
-            return 'motion-vendor';
-          }
-          
-          // All other node_modules
+          // All other node_modules (including React) go to vendor chunk
+          // This ensures React is loaded synchronously with the main bundle
           if (id.includes('node_modules')) {
             return 'vendor';
           }
         },
       },
+      // Ensure proper dependency resolution
+      preserveEntrySignatures: 'strict',
     },
     chunkSizeWarningLimit: 1000,
+    // Ensure proper module resolution
+    commonjsOptions: {
+      include: [/node_modules/],
+    },
   },
 }));
