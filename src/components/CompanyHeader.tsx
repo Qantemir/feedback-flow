@@ -32,7 +32,6 @@ export const CompanyHeader = () => {
     { name: t("company.growth"), path: "/company/growth", icon: FiAward },
     { name: t("company.reports"), path: "/company/reports", icon: FiBarChart2 },
     { name: t("company.billing"), path: "/company/billing", icon: FiCreditCard },
-    { name: t("company.settings"), path: "/company/settings", icon: FiSettings },
   ];
 
   return (
@@ -97,6 +96,22 @@ export const CompanyHeader = () => {
                 >
                   <HeadlessMenu.Items className="absolute right-0 mt-2 w-48 origin-top-right rounded-lg bg-white border-2 border-primary shadow-xl ring-1 ring-black ring-opacity-5 focus:outline-none z-[100]">
                     <div className="p-1">
+                      <HeadlessMenu.Item>
+                        {({ active }) => (
+                          <Link
+                            to="/company/settings"
+                            className={cn(
+                              "w-full flex items-center gap-2 px-4 py-2.5 text-sm font-medium rounded-md transition-colors",
+                              active
+                                ? "bg-primary/10 text-primary"
+                                : "text-foreground hover:bg-muted"
+                            )}
+                          >
+                            <FiSettings className="h-4 w-4 flex-shrink-0" />
+                            <span>{t("company.settings")}</span>
+                          </Link>
+                        )}
+                      </HeadlessMenu.Item>
                       <HeadlessMenu.Item>
                         {({ active }) => (
                           <button
