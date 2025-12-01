@@ -2,16 +2,16 @@ import { Link, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import {
-  Building2,
-  MessageSquare,
-  DollarSign,
-  BarChart3,
-  Users,
-  Settings,
-  LogOut,
-  Menu,
-  X,
-} from "lucide-react";
+  FiHome,
+  FiMessageSquare,
+  FiDollarSign,
+  FiBarChart2,
+  FiUsers,
+  FiSettings,
+  FiLogOut,
+  FiMenu,
+  FiX,
+} from "react-icons/fi";
 import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
@@ -27,11 +27,11 @@ export const AdminHeader = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navigation = [
-    { name: t("admin.companies"), path: "/admin", icon: Building2 },
-    { name: t("admin.messages"), path: "/admin/messages", icon: MessageSquare },
-    { name: t("admin.plans"), path: "/admin/plans", icon: DollarSign },
-    { name: t("admin.analytics"), path: "/admin/analytics", icon: BarChart3 },
-    { name: t("admin.admins"), path: "/admin/admins", icon: Users },
+    { name: t("admin.companies"), path: "/admin", icon: FiHome },
+    { name: t("admin.messages"), path: "/admin/messages", icon: FiMessageSquare },
+    { name: t("admin.plans"), path: "/admin/plans", icon: FiDollarSign },
+    { name: t("admin.analytics"), path: "/admin/analytics", icon: FiBarChart2 },
+    { name: t("admin.admins"), path: "/admin/admins", icon: FiUsers },
   ];
 
   return (
@@ -107,7 +107,7 @@ export const AdminHeader = () => {
                                 : "text-foreground hover:bg-muted"
                             )}
                           >
-                            <Settings className="h-4 w-4 flex-shrink-0" />
+                            <FiSettings className="h-4 w-4 flex-shrink-0" />
                             <span>{t("common.settings")}</span>
                           </Link>
                         )}
@@ -126,7 +126,7 @@ export const AdminHeader = () => {
                                 : "text-foreground hover:bg-muted"
                             )}
                           >
-                            <LogOut className="h-4 w-4 flex-shrink-0" />
+                            <FiLogOut className="h-4 w-4 flex-shrink-0" />
                             <span>{t("common.logout")}</span>
                           </button>
                         )}
@@ -145,7 +145,7 @@ export const AdminHeader = () => {
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className="lg:hidden"
           >
-            {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            {mobileMenuOpen ? <FiX className="h-5 w-5" /> : <FiMenu className="h-5 w-5" />}
           </Button>
         </div>
       </div>

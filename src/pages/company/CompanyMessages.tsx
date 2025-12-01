@@ -8,7 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { Search, Filter, Eye, CheckCircle, Clock, X, ChevronsUpDown, Check, MessageSquare } from "lucide-react";
+import { FiSearch, FiFilter, FiEye, FiCheckCircle, FiClock, FiX, FiChevronDown, FiCheck, FiMessageSquare } from "react-icons/fi";
 import { CompanyHeader } from "@/components/CompanyHeader";
 import { useAuth } from "@/contexts/AuthContext";
 import { messageApi, companyApi } from "@/services/api";
@@ -117,7 +117,7 @@ const CompanyMessages = () => {
           <Card className="p-4 sm:p-6">
             <div className="flex flex-col md:flex-row gap-3 sm:gap-4">
               <div className="relative flex-1">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <Input
                   placeholder={t("messages.searchPlaceholder")}
                   value={searchQuery}
@@ -132,7 +132,7 @@ const CompanyMessages = () => {
                       {statusOptions.find((opt) => opt.value === statusFilter)?.label || t("checkStatus.status")}
                     </span>
                     <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-                      <ChevronsUpDown className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
+                      <FiChevronDown className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
                     </span>
                   </Listbox.Button>
                   <Transition
@@ -158,7 +158,7 @@ const CompanyMessages = () => {
                               </span>
                               {selected ? (
                                 <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-primary">
-                                  <Check className="h-5 w-5" aria-hidden="true" />
+                                  <FiCheck className="h-5 w-5" aria-hidden="true" />
                                 </span>
                               ) : null}
                             </>
@@ -176,7 +176,7 @@ const CompanyMessages = () => {
                       {typeOptions.find((opt) => opt.value === typeFilter)?.label || t("messages.type")}
                     </span>
                     <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-                      <ChevronsUpDown className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
+                      <FiChevronDown className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
                     </span>
                   </Listbox.Button>
                   <Transition
@@ -202,7 +202,7 @@ const CompanyMessages = () => {
                               </span>
                               {selected ? (
                                 <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-primary">
-                                  <Check className="h-5 w-5" aria-hidden="true" />
+                                  <FiCheck className="h-5 w-5" aria-hidden="true" />
                                 </span>
                               ) : null}
                             </>
@@ -223,7 +223,7 @@ const CompanyMessages = () => {
             </div>
           ) : filteredMessages.length === 0 ? (
             <Card className="p-12 text-center">
-              <MessageSquare className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+              <FiMessageSquare className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
               <p className="text-muted-foreground">{t("messages.noMessages")}</p>
             </Card>
           ) : (
@@ -258,7 +258,7 @@ const CompanyMessages = () => {
                       onClick={() => handleViewMessage(message)}
                       className="w-full sm:w-auto ml-0 sm:ml-4"
                     >
-                      <Eye className="h-4 w-4 mr-2" />
+                      <FiEye className="h-4 w-4 mr-2" />
                       {t("messages.open")}
                     </Button>
                   </div>
@@ -341,7 +341,7 @@ const CompanyMessages = () => {
                   onClick={() => handleUpdateStatus(t("checkStatus.inProgress") as MessageStatus)}
                   disabled={selectedMessage.status === t("checkStatus.inProgress")}
                 >
-                  <Clock className="h-4 w-4 mr-2" />
+                  <FiClock className="h-4 w-4 mr-2" />
                   {t("checkStatus.inProgress")}
                 </Button>
                 <Button
@@ -349,7 +349,7 @@ const CompanyMessages = () => {
                   onClick={() => handleUpdateStatus(t("checkStatus.resolved") as MessageStatus)}
                   disabled={selectedMessage.status === t("checkStatus.resolved")}
                 >
-                  <CheckCircle className="h-4 w-4 mr-2" />
+                  <FiCheckCircle className="h-4 w-4 mr-2" />
                   {t("checkStatus.resolved")}
                 </Button>
                 <Button
@@ -357,7 +357,7 @@ const CompanyMessages = () => {
                   onClick={() => handleUpdateStatus(t("checkStatus.rejected") as MessageStatus)}
                   disabled={selectedMessage.status === t("checkStatus.rejected") || selectedMessage.status === "Отклонено"}
                 >
-                  <X className="h-4 w-4 mr-2" />
+                  <FiX className="h-4 w-4 mr-2" />
                   {t("messages.reject")}
                 </Button>
               </div>

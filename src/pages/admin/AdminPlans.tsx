@@ -8,11 +8,12 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Plus, Edit, Trash2, Settings } from "lucide-react";
+import { FiPlus, FiEdit, FiTrash2, FiSettings } from "react-icons/fi";
 import { AdminHeader } from "@/components/AdminHeader";
 import { plansApi } from "@/services/api";
-import { PlanType } from "@/types";
+import { PlanType, TranslatedString } from "@/types";
 import { toast } from "sonner";
+import { getTranslatedValue } from "@/lib/translations";
 
 const AdminPlans = () => {
   const { t } = useTranslation();
@@ -38,11 +39,12 @@ const AdminPlans = () => {
 
   // Состояние для создания нового плана
   const [newPlan, setNewPlan] = useState({
-    name: "",
+    name: { ru: "", en: "", kk: "" },
     price: 0,
     messagesLimit: 0,
     storageLimit: 0,
     selectedFeatures: [] as string[],
+    customFeatures: [] as { ru: string; en: string; kk: string }[],
   });
 
   const { data: plans = [], isLoading, refetch } = useQuery({
@@ -73,14 +75,16 @@ const AdminPlans = () => {
   const { mutate: createPlan } = useMutation({
     mutationFn: plansApi.create,
     onSuccess: () => {
-      toast.success(t("admin.planCreated", { name: newPlan.name }));
+      const planName = getTranslatedValue(newPlan.name);
+      toast.success(t("admin.planCreated", { name: planName }));
       setIsDialogOpen(false);
       setNewPlan({
-        name: "",
+        name: { ru: "", en: "", kk: "" },
         price: 0,
         messagesLimit: 0,
         storageLimit: 0,
         selectedFeatures: [],
+        customFeatures: [],
       });
       refetch();
     },
@@ -96,59 +100,114 @@ const AdminPlans = () => {
   };
 
   const handleCreatePlan = () => {
-    if (!newPlan.name.trim()) {
+    if (!newPlan.name.ru.trim() && !newPlan.name.en.trim() && !newPlan.name.kk.trim()) {
       toast.error(t("admin.enterPlanName"));
       return;
     }
 
-    if (newPlan.selectedFeatures.length === 0) {
+    if (newPlan.selectedFeatures.length === 0 && newPlan.customFeatures.length === 0) {
       toast.error(t("admin.selectAtLeastOneFeature"));
       return;
     }
 
-    // Генерируем features на основе выбранных функций
-    const features: string[] = [];
+    // Генерируем features на основе выбранных функций с переводами
+    const features: TranslatedString[] = [];
     
     if (newPlan.selectedFeatures.includes("messages")) {
       const limit = newPlan.messagesLimit || 0;
-      features.push(limit === 0 ? t("admin.unlimitedMessages") : t("admin.messagesLimitPerMonth", { limit }));
+      if (limit === 0) {
+        features.push({
+          ru: t("admin.unlimitedMessages"),
+          en: "Unlimited messages",
+          kk: "Шектеусіз хабарламалар",
+        });
+      } else {
+        features.push({
+          ru: t("admin.messagesLimitPerMonth", { limit }),
+          en: `Up to ${limit} messages per month`,
+          kk: `Айына ${limit} хабарламаға дейін`,
+        });
+      }
     }
     
     if (newPlan.selectedFeatures.includes("storage")) {
       const limit = newPlan.storageLimit || 0;
-      features.push(limit === 0 ? t("admin.unlimitedStorage") : t("admin.storageGB", { limit }));
+      if (limit === 0) {
+        features.push({
+          ru: t("admin.unlimitedStorage"),
+          en: "Unlimited storage",
+          kk: "Шектеусіз қойма",
+        });
+      } else {
+        features.push({
+          ru: t("admin.storageGB", { limit }),
+          en: `${limit} GB storage`,
+          kk: `${limit} GB қойма`,
+        });
+      }
     }
     
     if (newPlan.selectedFeatures.includes("basic_analytics")) {
-      features.push(t("admin.basicAnalytics"));
+      features.push({
+        ru: t("admin.basicAnalytics"),
+        en: "Basic Analytics",
+        kk: "Негізгі аналитика",
+      });
     }
     
     if (newPlan.selectedFeatures.includes("advanced_analytics")) {
-      features.push(t("admin.advancedAnalytics"));
+      features.push({
+        ru: t("admin.advancedAnalytics"),
+        en: "Advanced Analytics",
+        kk: "Кеңейтілген аналитика",
+      });
     }
     
     if (newPlan.selectedFeatures.includes("full_analytics")) {
-      features.push(t("admin.fullAnalytics"));
+      features.push({
+        ru: t("admin.fullAnalytics"),
+        en: "Full Analytics",
+        kk: "Толық аналитика",
+      });
     }
     
     if (newPlan.selectedFeatures.includes("priority_support")) {
-      features.push(t("admin.prioritySupport"));
+      features.push({
+        ru: t("admin.prioritySupport"),
+        en: "Priority Support",
+        kk: "Басымдықты қолдау",
+      });
     }
     
     if (newPlan.selectedFeatures.includes("support_24_7")) {
-      features.push(t("admin.support247"));
+      features.push({
+        ru: t("admin.support247"),
+        en: "24/7 Support",
+        kk: "24/7 қолдау",
+      });
     }
     
     if (newPlan.selectedFeatures.includes("api_access")) {
-      features.push(t("admin.apiAccess"));
+      features.push({
+        ru: t("admin.apiAccess"),
+        en: "API Access",
+        kk: "API қол жетімділігі",
+      });
     }
+
+    // Добавляем кастомные функции
+    newPlan.customFeatures.forEach((feature) => {
+      if (feature.ru.trim() || feature.en.trim() || feature.kk.trim()) {
+        features.push(feature);
+      }
+    });
 
     // Определяем лимиты (0 = без ограничений)
     const messagesLimit = newPlan.selectedFeatures.includes("messages") ? (newPlan.messagesLimit || 0) : 0;
     const storageLimit = newPlan.selectedFeatures.includes("storage") ? (newPlan.storageLimit || 0) : 0;
 
     createPlan({
-      name: newPlan.name as PlanType,
+      name: newPlan.name,
       price: newPlan.price,
       messagesLimit,
       storageLimit,
@@ -180,12 +239,12 @@ const AdminPlans = () => {
             </div>
             <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
               <Button variant="outline" onClick={() => setIsFreePlanSettingsOpen(true)} size="sm" className="w-full sm:w-auto">
-                <Settings className="h-4 w-4 mr-2" />
+                <FiSettings className="h-4 w-4 mr-2" />
                 <span className="hidden sm:inline">{t("admin.freePlanSettings")}</span>
                 <span className="sm:hidden">{t("company.settings")}</span>
               </Button>
               <Button onClick={() => setIsDialogOpen(true)} size="sm" className="w-full sm:w-auto">
-                <Plus className="h-4 w-4 mr-2" />
+                <FiPlus className="h-4 w-4 mr-2" />
                 {t("admin.createPlan")}
               </Button>
             </div>
@@ -200,13 +259,13 @@ const AdminPlans = () => {
                 <Card key={plan.id} className="p-4 sm:p-6">
                   <div className="space-y-4">
                     <div className="flex items-center justify-between">
-                      <h3 className="text-xl font-semibold text-foreground">{plan.name}</h3>
+                      <h3 className="text-xl font-semibold text-foreground">{getTranslatedValue(plan.name)}</h3>
                       <div className="flex gap-2">
                         <Button variant="ghost" size="icon">
-                          <Edit className="h-4 w-4" />
+                          <FiEdit className="h-4 w-4" />
                         </Button>
                         <Button variant="ghost" size="icon" onClick={() => handleDelete(plan.id)}>
-                          <Trash2 className="h-4 w-4" />
+                          <FiTrash2 className="h-4 w-4" />
                         </Button>
                       </div>
                     </div>
@@ -226,7 +285,7 @@ const AdminPlans = () => {
                     </div>
                     <ul className="space-y-1">
                       {plan.features.map((feature, idx) => (
-                        <li key={idx} className="text-sm text-foreground">• {feature}</li>
+                        <li key={idx} className="text-sm text-foreground">• {getTranslatedValue(feature)}</li>
                       ))}
                     </ul>
                   </div>
@@ -383,13 +442,34 @@ const AdminPlans = () => {
                   <div className="space-y-6">
                     {/* Основная информация */}
                     <div className="space-y-4">
-                      <div className="space-y-2">
+                      <div className="space-y-4">
                         <Label>{t("admin.planName")} *</Label>
-                        <Input
-                          placeholder={t("admin.planNameExample")}
-                          value={newPlan.name}
-                          onChange={(e) => setNewPlan({ ...newPlan, name: e.target.value })}
-                        />
+                        <div className="space-y-2">
+                          <div className="space-y-2">
+                            <Label className="text-xs text-muted-foreground">Русский</Label>
+                            <Input
+                              placeholder={t("admin.planNameExample")}
+                              value={newPlan.name.ru}
+                              onChange={(e) => setNewPlan({ ...newPlan, name: { ...newPlan.name, ru: e.target.value } })}
+                            />
+                          </div>
+                          <div className="space-y-2">
+                            <Label className="text-xs text-muted-foreground">English</Label>
+                            <Input
+                              placeholder="e.g., Premium"
+                              value={newPlan.name.en}
+                              onChange={(e) => setNewPlan({ ...newPlan, name: { ...newPlan.name, en: e.target.value } })}
+                            />
+                          </div>
+                          <div className="space-y-2">
+                            <Label className="text-xs text-muted-foreground">Қазақша</Label>
+                            <Input
+                              placeholder="мысалы, Премиум"
+                              value={newPlan.name.kk}
+                              onChange={(e) => setNewPlan({ ...newPlan, name: { ...newPlan.name, kk: e.target.value } })}
+                            />
+                          </div>
+                        </div>
                       </div>
                       
                       <div className="space-y-2">
@@ -483,17 +563,87 @@ const AdminPlans = () => {
                           </div>
                         ))}
                       </div>
+                      
+                      {/* Кастомные функции */}
+                      <div className="space-y-3 mt-4">
+                        <div className="flex items-center justify-between">
+                          <Label className="text-sm font-semibold">{t("admin.customFeatures")}</Label>
+                          <Button
+                            type="button"
+                            variant="outline"
+                            size="sm"
+                            onClick={() => {
+                              setNewPlan({
+                                ...newPlan,
+                                customFeatures: [...newPlan.customFeatures, { ru: "", en: "", kk: "" }],
+                              });
+                            }}
+                          >
+                            <Plus className="h-4 w-4 mr-1" />
+                            {t("common.add")}
+                          </Button>
+                        </div>
+                        {newPlan.customFeatures.map((feature, idx) => (
+                          <div key={idx} className="space-y-2 p-3 border border-border rounded-lg">
+                            <div className="flex items-center justify-between mb-2">
+                              <Label className="text-xs text-muted-foreground">{t("admin.customFeature")} {idx + 1}</Label>
+                              <Button
+                                type="button"
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => {
+                                  setNewPlan({
+                                    ...newPlan,
+                                    customFeatures: newPlan.customFeatures.filter((_, i) => i !== idx),
+                                  });
+                                }}
+                              >
+                                <FiTrash2 className="h-4 w-4" />
+                              </Button>
+                            </div>
+                            <div className="space-y-2">
+                              <Input
+                                placeholder="Русский"
+                                value={feature.ru}
+                                onChange={(e) => {
+                                  const updated = [...newPlan.customFeatures];
+                                  updated[idx] = { ...updated[idx], ru: e.target.value };
+                                  setNewPlan({ ...newPlan, customFeatures: updated });
+                                }}
+                              />
+                              <Input
+                                placeholder="English"
+                                value={feature.en}
+                                onChange={(e) => {
+                                  const updated = [...newPlan.customFeatures];
+                                  updated[idx] = { ...updated[idx], en: e.target.value };
+                                  setNewPlan({ ...newPlan, customFeatures: updated });
+                                }}
+                              />
+                              <Input
+                                placeholder="Қазақша"
+                                value={feature.kk}
+                                onChange={(e) => {
+                                  const updated = [...newPlan.customFeatures];
+                                  updated[idx] = { ...updated[idx], kk: e.target.value };
+                                  setNewPlan({ ...newPlan, customFeatures: updated });
+                                }}
+                              />
+                            </div>
+                          </div>
+                        ))}
+                      </div>
                     </div>
 
                     {/* Предпросмотр */}
-                    {newPlan.selectedFeatures.length > 0 && (
+                    {(newPlan.selectedFeatures.length > 0 || newPlan.customFeatures.length > 0) && (
                       <>
                         <Separator />
                         <div className="space-y-2">
                           <h4 className="text-sm font-semibold text-foreground">{t("admin.preview")}</h4>
                           <div className="bg-muted/50 rounded-lg p-4 space-y-2">
                             <div className="flex items-center justify-between">
-                              <span className="text-sm font-medium text-foreground">{newPlan.name || t("admin.planName")}</span>
+                              <span className="text-sm font-medium text-foreground">{getTranslatedValue(newPlan.name) || t("admin.planName")}</span>
                               <span className="text-sm font-bold text-foreground">
                                 {newPlan.price === 0 ? t("common.free") : `${newPlan.price} ₸/${t("admin.perMonth")}`}
                               </span>
@@ -527,6 +677,17 @@ const AdminPlans = () => {
                               {newPlan.selectedFeatures.includes("api_access") && (
                                 <li className="text-xs text-foreground">• {t("admin.apiAccess")}</li>
                               )}
+                              {newPlan.customFeatures.map((feature, idx) => {
+                                const translated = getTranslatedValue(feature);
+                                if (translated) {
+                                  return (
+                                    <li key={`custom-${idx}`} className="text-xs text-foreground">
+                                      • {translated}
+                                    </li>
+                                  );
+                                }
+                                return null;
+                              })}
                             </ul>
                           </div>
                         </div>

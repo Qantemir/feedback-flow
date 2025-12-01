@@ -8,13 +8,13 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import {
-  Search,
-  Filter,
-  Plus,
-  MoreVertical,
-  Eye,
-  X,
-} from "lucide-react";
+  FiSearch,
+  FiFilter,
+  FiPlus,
+  FiMoreVertical,
+  FiEye,
+  FiX,
+} from "react-icons/fi";
 import { AdminHeader } from "@/components/AdminHeader";
 import { useAuth } from "@/contexts/AuthContext";
 import { companyApi } from "@/services/api";
@@ -94,7 +94,7 @@ const AdminPanel = () => {
                 </p>
               </div>
               <Button size="sm" className="w-full sm:w-auto">
-                <Plus className="h-4 w-4 mr-2" />
+                <FiPlus className="h-4 w-4 mr-2" />
                 <span className="hidden sm:inline">{t("admin.createCompany")}</span>
                 <span className="sm:hidden">{t("common.create")}</span>
               </Button>
@@ -102,7 +102,7 @@ const AdminPanel = () => {
 
             <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6">
               <div className="relative flex-1">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <Input
                   placeholder={t("admin.searchCompanies")}
                   value={searchQuery}
@@ -111,7 +111,7 @@ const AdminPanel = () => {
                 />
               </div>
               <Button variant="outline" size="icon" className="flex-shrink-0">
-                <Filter className="h-4 w-4" />
+                <FiFilter className="h-4 w-4" />
               </Button>
             </div>
 
@@ -171,7 +171,7 @@ const AdminPanel = () => {
                           <div className="flex items-center gap-2">
                             <span className="text-sm text-muted-foreground">{company.registered}</span>
                             <Button variant="ghost" size="icon" className="h-8 w-8">
-                              <MoreVertical className="h-4 w-4 text-muted-foreground" />
+                              <FiMoreVertical className="h-4 w-4 text-muted-foreground" />
                             </Button>
                           </div>
                         </td>
@@ -278,7 +278,7 @@ const AdminPanel = () => {
 
             <div className="space-y-3">
               <Button className="w-full" variant="outline">
-                <Eye className="h-4 w-4 mr-2" />
+                <FiEye className="h-4 w-4 mr-2" />
                 Открыть панель
               </Button>
               
@@ -377,7 +377,7 @@ const AdminPanel = () => {
                       <div className="flex items-center justify-between mb-2">
                         <Dialog.Title className="text-base sm:text-lg font-semibold">{t("admin.companyDetails")}</Dialog.Title>
                         <Button variant="ghost" size="icon" onClick={() => setSelectedCompany(null)}>
-                          <X className="h-5 w-5" />
+                          <FiX className="h-5 w-5" />
                         </Button>
                       </div>
                       
@@ -426,7 +426,7 @@ const AdminPanel = () => {
                           <div className="space-y-3">
                             <h5 className="text-sm font-semibold text-foreground">{t("admin.actions")}</h5>
                             <Button className="w-full" variant="outline">
-                              <Eye className="h-4 w-4 mr-2" />
+                              <FiEye className="h-4 w-4 mr-2" />
                               {t("admin.openPanel")}
                             </Button>
                             

@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { LogOut } from "lucide-react";
+import { FiLogOut } from "react-icons/fi";
 import { NavLink } from "@/components/NavLink";
 import { useAuth } from "@/contexts/AuthContext";
 
@@ -43,7 +43,7 @@ export const AdminLayout = ({ children, title }: AdminLayoutProps) => {
             </NavLink>
           ))}
         </nav>
-      </div>
+      </aside>
 
       <div className="flex-1 flex flex-col">
         <header className="border-b border-border bg-card">
@@ -61,7 +61,7 @@ export const AdminLayout = ({ children, title }: AdminLayoutProps) => {
                   navigate("/");
                 }}
               >
-                <LogOut className="h-4 w-4 mr-2" />
+                <FiLogOut className="h-4 w-4 mr-2" />
                 {t("common.logout")}
               </Button>
             </div>

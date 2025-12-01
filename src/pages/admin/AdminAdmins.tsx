@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Plus, Search, Shield, Trash2 } from "lucide-react";
+import { FiPlus, FiSearch, FiShield, FiTrash2 } from "react-icons/fi";
 import { AdminHeader } from "@/components/AdminHeader";
 import { adminApi } from "@/services/api";
 import { toast } from "sonner";
@@ -41,7 +41,7 @@ const AdminAdmins = () => {
         <div className="container flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-0 px-4 sm:px-6 py-4 mb-4 sm:mb-6">
           <h2 className="text-base sm:text-lg font-semibold text-foreground">{t("admin.admins")}</h2>
           <Button onClick={() => setIsDialogOpen(true)} size="sm" className="w-full sm:w-auto">
-            <Plus className="h-4 w-4 mr-2" />
+            <FiPlus className="h-4 w-4 mr-2" />
             <span className="hidden sm:inline">{t("admin.addAdmin")}</span>
             <span className="sm:hidden">{t("common.add")}</span>
           </Button>
@@ -50,7 +50,7 @@ const AdminAdmins = () => {
         <main className="container flex-1 p-4 sm:p-6 space-y-4 sm:space-y-6 overflow-x-hidden">
           <Card className="p-6">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <Input
                 placeholder={t("admin.searchAdmins")}
                 value={searchQuery}
@@ -81,7 +81,7 @@ const AdminAdmins = () => {
                       </div>
                       <div className="flex items-center gap-2">
                         <Badge variant="outline">
-                          <Shield className="h-3 w-3 mr-1" />
+                          <FiShield className="h-3 w-3 mr-1" />
                           {admin.role === "super_admin" ? t("admin.superAdmin") : t("admin.administrator")}
                         </Badge>
                       </div>
@@ -98,7 +98,7 @@ const AdminAdmins = () => {
                       onClick={() => handleDelete(admin.id)}
                       className="text-destructive"
                     >
-                      <Trash2 className="h-4 w-4" />
+                      <FiTrash2 className="h-4 w-4" />
                     </Button>
                   </div>
                 </Card>

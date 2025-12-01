@@ -7,11 +7,11 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import {
-  Bell,
-  Search,
-  Filter,
-  MoreHorizontal,
-} from "lucide-react";
+  FiBell,
+  FiSearch,
+  FiFilter,
+  FiMoreHorizontal,
+} from "react-icons/fi";
 import { CompanyHeader } from "@/components/CompanyHeader";
 import { useAuth } from "@/contexts/AuthContext";
 import { statsApi, messageApi, companyApi } from "@/services/api";
@@ -119,7 +119,7 @@ const CompanyDashboard = () => {
             </div>
             <div className="flex items-center gap-3">
               <Button size="icon" variant="ghost">
-                <Bell className="h-5 w-5" />
+                <FiBell className="h-5 w-5" />
               </Button>
             </div>
           </div>
@@ -217,7 +217,7 @@ const CompanyDashboard = () => {
               <h3 className="text-base sm:text-lg font-semibold">{t("company.recentMessages")}</h3>
               <div className="flex items-center gap-2 sm:gap-3 w-full sm:w-auto">
                 <div className="relative flex-1 sm:flex-initial">
-                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                  <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                   <Input
                     placeholder={t("company.searchMessages")}
                     value={searchQuery}
@@ -226,7 +226,7 @@ const CompanyDashboard = () => {
                   />
                 </div>
                 <Button variant="outline" size="icon" className="flex-shrink-0">
-                  <Filter className="h-4 w-4" />
+                  <FiFilter className="h-4 w-4" />
                 </Button>
               </div>
             </div>
@@ -294,7 +294,7 @@ const CompanyDashboard = () => {
                             size="icon"
                             onClick={() => navigate(`/company/messages`)}
                           >
-                            <MoreHorizontal className="h-4 w-4" />
+                            <FiMoreHorizontal className="h-4 w-4" />
                           </Button>
                         </td>
                       </tr>
@@ -326,7 +326,7 @@ const CompanyDashboard = () => {
                           className="h-8 w-8 flex-shrink-0"
                           onClick={() => navigate(`/company/messages`)}
                         >
-                          <MoreHorizontal className="h-4 w-4" />
+                          <FiMoreHorizontal className="h-4 w-4" />
                         </Button>
                       </div>
                       <div className="flex flex-wrap items-center gap-2">

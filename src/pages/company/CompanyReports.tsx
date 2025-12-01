@@ -4,7 +4,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger, TabsPanels } from "@/components/Tabs";
-import { Download } from "lucide-react";
+import { FiDownload } from "react-icons/fi";
 import { CompanyHeader } from "@/components/CompanyHeader";
 import { useAuth } from "@/contexts/AuthContext";
 import { statsApi } from "@/services/api";
@@ -37,7 +37,7 @@ const CompanyReports = () => {
           <div className="container flex items-center justify-between px-6 py-4">
             <h2 className="text-lg font-semibold text-foreground">{t("company.reports")}</h2>
             <Button>
-              <Download className="h-4 w-4 mr-2" />
+              <FiDownload className="h-4 w-4 mr-2" />
               {t("admin.export")}
             </Button>
           </div>

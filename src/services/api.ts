@@ -260,7 +260,7 @@ let freePlanSettings = {
 };
 
 // Хранилище планов (в реальном приложении это будет база данных)
-let customPlans: SubscriptionPlan[] = [];
+const customPlans: SubscriptionPlan[] = [];
 
 // Вспомогательная функция для генерации уникального ID плана
 const generatePlanId = () => `custom-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`;

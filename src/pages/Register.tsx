@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Building2, ArrowLeft } from "lucide-react";
+import { FiHome, FiArrowLeft } from "react-icons/fi";
 import { companyApi } from "@/services/api";
 import { useAuth } from "@/contexts/AuthContext";
 import { toast } from "sonner";
@@ -73,8 +73,9 @@ const Register = () => {
         navigate("/company", { replace: true });
       }
     },
-    onError: (error: any) => {
-      toast.error(error?.message || t("common.error"));
+    onError: (error: Error | unknown) => {
+      const errorMessage = error instanceof Error ? error.message : t("common.error");
+      toast.error(errorMessage);
     },
   });
 
@@ -108,12 +109,12 @@ const Register = () => {
         <Card className="p-6 sm:p-8">
           <div className="mb-6">
             <Link to="/" className="inline-flex items-center text-sm text-muted-foreground hover:text-foreground mb-4">
-              <ArrowLeft className="h-4 w-4 mr-2" />
+              <FiArrowLeft className="h-4 w-4 mr-2" />
               {t("common.back")}
             </Link>
             <div className="text-center">
               <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
-                <Building2 className="h-8 w-8 text-primary" />
+                <FiHome className="h-8 w-8 text-primary" />
               </div>
               <h1 className="text-3xl font-bold text-foreground mb-2">{t("auth.register")}</h1>
               <p className="text-muted-foreground">{t("auth.register")}</p>

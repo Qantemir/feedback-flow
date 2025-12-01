@@ -6,7 +6,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
-import { Search, Eye, CheckCircle, X, ChevronsUpDown, Check } from "lucide-react";
+import { FiSearch, FiEye, FiCheckCircle, FiX, FiChevronDown, FiCheck } from "react-icons/fi";
 import { AdminHeader } from "@/components/AdminHeader";
 import { messageApi } from "@/services/api";
 import { Message } from "@/types";
@@ -59,7 +59,7 @@ const AdminMessages = () => {
           <Card className="p-4 sm:p-6">
             <div className="flex flex-col md:flex-row gap-3 sm:gap-4">
               <div className="relative flex-1">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <Input
                   placeholder={t("admin.searchMessages")}
                   value={searchQuery}
@@ -74,7 +74,7 @@ const AdminMessages = () => {
                       {statusFilter === "all" ? t("messages.allStatuses") : statusFilter}
                     </span>
                     <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-                      <ChevronsUpDown className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
+                      <FiChevronDown className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
                     </span>
                   </Listbox.Button>
                   <Transition
@@ -102,7 +102,7 @@ const AdminMessages = () => {
                               </span>
                               {selected ? (
                                 <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-primary">
-                                  <Check className="h-4 w-4" aria-hidden="true" />
+                                  <FiCheck className="h-4 w-4" aria-hidden="true" />
                                 </span>
                               ) : null}
                             </>
@@ -139,7 +139,7 @@ const AdminMessages = () => {
                       onClick={() => handleViewMessage(message)}
                       className="w-full sm:w-auto ml-0 sm:ml-4 flex-shrink-0"
                     >
-                      <Eye className="h-4 w-4 mr-2" />
+                      <FiEye className="h-4 w-4 mr-2" />
                       <span className="hidden sm:inline">{t("messages.view")}</span>
                       <span className="sm:hidden">{t("messages.open")}</span>
                     </Button>
@@ -196,7 +196,7 @@ const AdminMessages = () => {
                   onClick={() => handleModerate("approve")}
                   className="flex-1 w-full sm:w-auto"
                 >
-                  <CheckCircle className="h-4 w-4 mr-2" />
+                  <FiCheckCircle className="h-4 w-4 mr-2" />
                   {t("admin.approve")}
                 </Button>
                 <Button
@@ -204,7 +204,7 @@ const AdminMessages = () => {
                   onClick={() => handleModerate("reject")}
                   className="flex-1 w-full sm:w-auto"
                 >
-                  <X className="h-4 w-4 mr-2" />
+                  <FiX className="h-4 w-4 mr-2" />
                   {t("admin.reject")}
                 </Button>
               </div>

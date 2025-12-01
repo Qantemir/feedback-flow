@@ -2,17 +2,17 @@ import { Link, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import {
-  LayoutDashboard,
-  MessageSquare,
-  Trophy,
-  BarChart3,
-  CreditCard,
-  Settings,
-  LogOut,
-  Menu,
-  X,
-  ChevronDown,
-} from "lucide-react";
+  FiLayout,
+  FiMessageSquare,
+  FiAward,
+  FiBarChart2,
+  FiCreditCard,
+  FiSettings,
+  FiLogOut,
+  FiMenu,
+  FiX,
+  FiChevronDown,
+} from "react-icons/fi";
 import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
@@ -28,12 +28,12 @@ export const CompanyHeader = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navigation = [
-    { name: t("company.dashboard"), path: "/company", icon: LayoutDashboard },
-    { name: t("company.messages"), path: "/company/messages", icon: MessageSquare },
-    { name: t("company.growth"), path: "/company/growth", icon: Trophy },
-    { name: t("company.reports"), path: "/company/reports", icon: BarChart3 },
-    { name: t("company.billing"), path: "/company/billing", icon: CreditCard },
-    { name: t("company.settings"), path: "/company/settings", icon: Settings },
+    { name: t("company.dashboard"), path: "/company", icon: FiLayout },
+    { name: t("company.messages"), path: "/company/messages", icon: FiMessageSquare },
+    { name: t("company.growth"), path: "/company/growth", icon: FiAward },
+    { name: t("company.reports"), path: "/company/reports", icon: FiBarChart2 },
+    { name: t("company.billing"), path: "/company/billing", icon: FiCreditCard },
+    { name: t("company.settings"), path: "/company/settings", icon: FiSettings },
   ];
 
   return (
@@ -109,7 +109,7 @@ export const CompanyHeader = () => {
                                 : "text-foreground hover:bg-muted"
                             )}
                           >
-                            <Settings className="h-4 w-4 flex-shrink-0" />
+                            <FiSettings className="h-4 w-4 flex-shrink-0" />
                             <span>{t("company.settings")}</span>
                           </Link>
                         )}
@@ -128,7 +128,7 @@ export const CompanyHeader = () => {
                                 : "text-foreground hover:bg-muted"
                             )}
                           >
-                            <LogOut className="h-4 w-4 flex-shrink-0" />
+                            <FiLogOut className="h-4 w-4 flex-shrink-0" />
                             <span>{t("common.logout")}</span>
                           </button>
                         )}
@@ -147,7 +147,7 @@ export const CompanyHeader = () => {
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className="lg:hidden"
           >
-            {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            {mobileMenuOpen ? <FiX className="h-5 w-5" /> : <FiMenu className="h-5 w-5" />}
           </Button>
         </div>
       </div>

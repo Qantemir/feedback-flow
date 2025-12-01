@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { Trophy, TrendingUp, TrendingDown, Minus, Star } from "lucide-react";
+import { FiAward, FiTrendingUp, FiTrendingDown, FiMinus, FiStar } from "react-icons/fi";
 import { CompanyHeader } from "@/components/CompanyHeader";
 import { useAuth } from "@/contexts/AuthContext";
 import { statsApi } from "@/services/api";
@@ -31,11 +31,11 @@ const CompanyGrowth = () => {
   const getTrendIcon = (trend: string) => {
     switch (trend) {
       case "up":
-        return <TrendingUp className="h-5 w-5 text-secondary" />;
+        return <FiTrendingUp className="h-5 w-5 text-secondary" />;
       case "down":
-        return <TrendingDown className="h-5 w-5 text-accent" />;
+        return <FiTrendingDown className="h-5 w-5 text-accent" />;
       default:
-        return <Minus className="h-5 w-5 text-muted-foreground" />;
+        return <FiMinus className="h-5 w-5 text-muted-foreground" />;
     }
   };
 
@@ -60,7 +60,7 @@ const CompanyGrowth = () => {
                   </div>
                   <div className="text-right">
                     <div className="flex items-center gap-2 mb-2">
-                      <Star className="h-8 w-8 text-primary fill-primary" />
+                      <FiStar className="h-8 w-8 text-primary fill-primary" />
                       <span className="text-4xl font-bold text-foreground">{metrics?.rating || 0}</span>
                     </div>
                     <Badge className="bg-secondary text-secondary-foreground">
@@ -79,7 +79,7 @@ const CompanyGrowth = () => {
               {/* Achievements */}
               <Card className="p-6">
                 <div className="flex items-center gap-3 mb-6">
-                  <Trophy className="h-6 w-6 text-primary" />
+                  <FiAward className="h-6 w-6 text-primary" />
                   <h3 className="text-xl font-semibold">{t("company.achievements")}</h3>
                 </div>
                 <div className="space-y-4">

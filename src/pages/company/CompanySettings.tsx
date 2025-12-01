@@ -9,7 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
-import { Copy, Share2, CheckCircle2, Building2 } from "lucide-react";
+import { FiCopy, FiShare2, FiCheckCircle, FiHome } from "react-icons/fi";
 import { CompanyHeader } from "@/components/CompanyHeader";
 import { useAuth } from "@/contexts/AuthContext";
 import { companyApi } from "@/services/api";
@@ -82,9 +82,9 @@ const CompanySettings = () => {
                     }}
                   >
                     {copied ? (
-                      <CheckCircle2 className="h-4 w-4 text-secondary" />
+                      <FiCheckCircle className="h-4 w-4 text-secondary" />
                     ) : (
-                      <Copy className="h-4 w-4" />
+                      <FiCopy className="h-4 w-4" />
                     )}
                   </Button>
                 </div>
@@ -105,7 +105,7 @@ const CompanySettings = () => {
               <div className="space-y-4">
                 <div className="flex items-center gap-3">
                   <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
-                    <Building2 className="h-6 w-6 text-primary" />
+                    <FiHome className="h-6 w-6 text-primary" />
                   </div>
                   <div className="flex-1">
                     <h3 className="text-lg font-semibold text-foreground">{t("company.codeForEmployees")}</h3>
@@ -133,12 +133,12 @@ const CompanySettings = () => {
                       >
                         {copied ? (
                           <>
-                            <CheckCircle2 className="h-4 w-4 mr-2" />
+                            <FiCheckCircle className="h-4 w-4 mr-2" />
                             {t("company.copied")}
                           </>
                         ) : (
                           <>
-                            <Copy className="h-4 w-4 mr-2" />
+                            <FiCopy className="h-4 w-4 mr-2" />
                             {t("company.copy")}
                           </>
                         )}
@@ -164,7 +164,7 @@ const CompanySettings = () => {
                           toast.success(t("company.linkCopied"));
                         }}
                       >
-                        <Share2 className="h-4 w-4" />
+                        <FiShare2 className="h-4 w-4" />
                       </Button>
                     </div>
                     <p className="text-xs text-muted-foreground mt-2">

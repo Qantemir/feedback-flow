@@ -6,7 +6,7 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, Search, Clock, CheckCircle, MessageSquare } from "lucide-react";
+import { FiArrowLeft, FiSearch, FiClock, FiCheckCircle, FiMessageSquare } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { messageApi } from "@/services/api";
@@ -37,12 +37,12 @@ const CheckStatus = () => {
   const getStatusIcon = (status: string) => {
     const statusLower = status.toLowerCase();
     if (statusLower === t("checkStatus.inProgress").toLowerCase() || status === "In Progress" || status === "В работе") {
-      return <Clock className="h-5 w-5" />;
+      return <FiClock className="h-5 w-5" />;
     }
     if (statusLower === t("checkStatus.resolved").toLowerCase() || status === "Resolved" || status === "Решено") {
-      return <CheckCircle className="h-5 w-5" />;
+      return <FiCheckCircle className="h-5 w-5" />;
     }
-    return <MessageSquare className="h-5 w-5" />;
+    return <FiMessageSquare className="h-5 w-5" />;
   };
 
   const getStatusColor = (status: string) => {
@@ -77,7 +77,7 @@ const CheckStatus = () => {
       <header className="border-b border-border bg-card">
         <div className="container mx-auto px-6 py-4">
           <Button variant="ghost" size="sm" onClick={() => navigate('/')}>
-            <ArrowLeft className="h-4 w-4 mr-2" />
+            <FiArrowLeft className="h-4 w-4 mr-2" />
             {t("common.back")}
           </Button>
         </div>
@@ -105,7 +105,7 @@ const CheckStatus = () => {
                     className="text-lg font-mono"
                   />
                   <Button type="submit" size="lg">
-                    <Search className="h-5 w-5 mr-2" />
+                    <FiSearch className="h-5 w-5 mr-2" />
                     {t("checkStatus.search")}
                   </Button>
                 </div>

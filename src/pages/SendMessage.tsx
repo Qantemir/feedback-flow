@@ -8,7 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, Send, Copy, CheckCircle, Building2, CheckCircle2, X } from "lucide-react";
+import { FiArrowLeft, FiSend, FiCopy, FiCheckCircle, FiHome, FiX } from "react-icons/fi";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "sonner";
 import { messageApi, companyApi } from "@/services/api";
@@ -141,7 +141,7 @@ const SendMessage = () => {
         <header className="border-b border-border bg-card">
           <div className="container mx-auto px-6 py-4">
             <Button variant="ghost" size="sm" onClick={() => navigate('/')}>
-              <ArrowLeft className="h-4 w-4 mr-2" />
+              <FiArrowLeft className="h-4 w-4 mr-2" />
               {t("common.back")}
             </Button>
           </div>
@@ -150,7 +150,7 @@ const SendMessage = () => {
         <main className="flex-1 flex items-center justify-center px-6 py-20">
           <Card className="max-w-2xl w-full p-12 text-center space-y-8">
             <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto">
-              <CheckCircle className="h-10 w-10 text-primary" />
+              <FiCheckCircle className="h-10 w-10 text-primary" />
             </div>
             
             <div className="space-y-4">
@@ -167,7 +167,7 @@ const SendMessage = () => {
                   {messageId}
                 </code>
                 <Button size="icon" variant="outline" onClick={copyMessageId}>
-                  <Copy className="h-5 w-5" />
+                  <FiCopy className="h-5 w-5" />
                 </Button>
               </div>
               <p className="text-xs text-muted-foreground">
@@ -194,7 +194,7 @@ const SendMessage = () => {
       <header className="border-b border-border bg-card">
         <div className="container mx-auto px-6 py-4">
           <Button variant="ghost" size="sm" onClick={() => navigate('/')}>
-            <ArrowLeft className="h-4 w-4 mr-2" />
+            <FiArrowLeft className="h-4 w-4 mr-2" />
             {t("common.back")}
           </Button>
         </div>
@@ -239,7 +239,7 @@ const SendMessage = () => {
                       t("sendMessage.checking")
                     ) : validatedCode ? (
                       <>
-                        <CheckCircle2 className="h-4 w-4 mr-2" />
+                        <FiCheckCircle className="h-4 w-4 mr-2" />
                         {t("sendMessage.confirmed")}
                       </>
                     ) : (
@@ -256,7 +256,7 @@ const SendMessage = () => {
                   >
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center">
-                        <Building2 className="h-5 w-5 text-primary" />
+                        <FiHome className="h-5 w-5 text-primary" />
                       </div>
                       <div className="flex-1">
                         <p className="font-semibold text-foreground">{company.name}</p>
@@ -275,7 +275,7 @@ const SendMessage = () => {
                     animate={{ opacity: 1 }}
                     className="text-sm text-destructive flex items-center gap-2"
                   >
-                    <X className="h-4 w-4" />
+                    <FiX className="h-4 w-4" />
                     {t("sendMessage.companyNotFound")}
                   </motion.div>
                 )}
@@ -339,7 +339,7 @@ const SendMessage = () => {
               className="w-full text-lg h-12"
               disabled={!validatedCode || !message || !agreed || isSubmitting}
             >
-              <Send className="mr-2 h-5 w-5" />
+              <FiSend className="mr-2 h-5 w-5" />
               {isSubmitting ? t("sendMessage.sending") : t("sendMessage.anonymousMessage")}
             </Button>
           </form>

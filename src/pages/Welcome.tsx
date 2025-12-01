@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { MessageSquare, CheckCircle2, Send, LogIn, Building2, CheckCircle, X } from "lucide-react";
+import { FiMessageSquare, FiCheckCircle, FiSend, FiLogIn, FiHome, FiX } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { companyApi } from "@/services/api";
@@ -64,9 +64,9 @@ const Welcome = () => {
   };
 
   const steps = [
-    { number: "1", title: t("welcome.enterCode"), icon: MessageSquare },
-    { number: "2", title: t("sendMessage.enterMessage"), icon: Send },
-    { number: "3", title: t("checkStatus.messageId"), icon: CheckCircle2 },
+    { number: "1", title: t("welcome.enterCode"), icon: FiMessageSquare },
+    { number: "2", title: t("sendMessage.enterMessage"), icon: FiSend },
+    { number: "3", title: t("checkStatus.messageId"), icon: FiCheckCircle },
   ];
 
   return (
@@ -92,7 +92,7 @@ const Welcome = () => {
                     <span className="sm:hidden">{t("welcome.register")}</span>
                   </Button>
                   <Button variant="ghost" size="sm" onClick={() => navigate("/login")} className="text-xs sm:text-sm px-2 sm:px-3">
-                    <LogIn className="h-3.5 w-3.5 sm:h-4 sm:w-4 sm:mr-2" />
+                    <FiLogIn className="h-3.5 w-3.5 sm:h-4 sm:w-4 sm:mr-2" />
                     <span className="hidden sm:inline">{t("welcome.login")}</span>
                   </Button>
                 </div>
@@ -152,7 +152,7 @@ const Welcome = () => {
                       {isValidating ? (
                         t("common.loading")
                       ) : validatedCode ? (
-                        <CheckCircle className="h-5 w-5" />
+                        <FiCheckCircle className="h-5 w-5" />
                       ) : (
                         t("welcome.validateCode")
                       )}
@@ -168,7 +168,7 @@ const Welcome = () => {
                   >
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center">
-                        <Building2 className="h-5 w-5 text-primary" />
+                        <FiHome className="h-5 w-5 text-primary" />
                       </div>
                       <div className="flex-1">
                         <p className="font-semibold text-foreground">{company.name}</p>
@@ -182,7 +182,7 @@ const Welcome = () => {
                           setValidatedCode(null);
                         }}
                       >
-                        <X className="h-4 w-4" />
+                        <FiX className="h-4 w-4" />
                       </Button>
                     </div>
                   </motion.div>
@@ -206,7 +206,7 @@ const Welcome = () => {
                   onClick={handleSendMessage}
                   disabled={!validatedCode}
                 >
-                  <Send className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
+                  <FiSend className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
                   <span className="text-sm sm:text-base">{t("welcome.sendMessage")}</span>
                 </Button>
                 <Button
@@ -215,7 +215,7 @@ const Welcome = () => {
                   className="text-base sm:text-lg px-6 sm:px-8 py-5 sm:py-6 h-auto"
                   onClick={() => navigate("/check-status")}
                 >
-                  <CheckCircle2 className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
+                  <FiCheckCircle className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
                   <span className="text-sm sm:text-base">{t("welcome.checkStatus")}</span>
                 </Button>
               </div>
@@ -244,7 +244,7 @@ const Welcome = () => {
       <footer className="border-t border-border bg-card">
         <div className="container mx-auto px-6 py-6">
           <p className="text-sm text-muted-foreground text-center">
-            © 2024 FeedbackHub. Ваша анонимность гарантирована.
+            © 2025 FeedbackHub. {t("welcome.anonymityGuaranteed")}
           </p>
         </div>
       </footer>

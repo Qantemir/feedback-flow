@@ -4,7 +4,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger, TabsPanels } from "@/components/Tabs";
-import { Download, TrendingUp, Users, MessageSquare, Building2 } from "lucide-react";
+import { FiDownload, FiTrendingUp, FiUsers, FiMessageSquare, FiHome } from "react-icons/fi";
 import { AdminHeader } from "@/components/AdminHeader";
 import { companyApi, messageApi } from "@/services/api";
 
@@ -34,7 +34,7 @@ const AdminAnalytics = () => {
         <div className="container flex items-center justify-between px-6 py-4 mb-6">
           <h2 className="text-lg font-semibold text-foreground">{t("admin.analytics")}</h2>
           <Button>
-            <Download className="h-4 w-4 mr-2" />
+            <FiDownload className="h-4 w-4 mr-2" />
             {t("admin.export")}
           </Button>
         </div>
@@ -52,7 +52,7 @@ const AdminAnalytics = () => {
               <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                 <Card className="p-6">
                   <div className="flex items-center gap-3 mb-2">
-                    <Building2 className="h-5 w-5 text-primary" />
+                    <FiHome className="h-5 w-5 text-primary" />
                     <p className="text-sm text-muted-foreground">{t("admin.totalCompanies")}</p>
                   </div>
                   <p className="text-3xl font-bold text-foreground">{totalCompanies}</p>
@@ -63,7 +63,7 @@ const AdminAnalytics = () => {
 
                 <Card className="p-6">
                   <div className="flex items-center gap-3 mb-2">
-                    <MessageSquare className="h-5 w-5 text-secondary" />
+                    <FiMessageSquare className="h-5 w-5 text-secondary" />
                     <p className="text-sm text-muted-foreground">{t("admin.totalMessages")}</p>
                   </div>
                   <p className="text-3xl font-bold text-foreground">{totalMessages}</p>
@@ -74,7 +74,7 @@ const AdminAnalytics = () => {
 
                 <Card className="p-6">
                   <div className="flex items-center gap-3 mb-2">
-                    <TrendingUp className="h-5 w-5 text-accent" />
+                    <FiTrendingUp className="h-5 w-5 text-accent" />
                     <p className="text-sm text-muted-foreground">{t("admin.monthlyGrowth")}</p>
                   </div>
                   <p className="text-3xl font-bold text-foreground">+12%</p>
@@ -85,7 +85,7 @@ const AdminAnalytics = () => {
 
                 <Card className="p-6">
                   <div className="flex items-center gap-3 mb-2">
-                    <Users className="h-5 w-5 text-primary" />
+                    <FiUsers className="h-5 w-5 text-primary" />
                     <p className="text-sm text-muted-foreground">{t("admin.users")}</p>
                   </div>
                   <p className="text-3xl font-bold text-foreground">

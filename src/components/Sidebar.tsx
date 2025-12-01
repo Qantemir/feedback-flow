@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Dialog, Transition } from "@headlessui/react";
-import { X, Menu } from "lucide-react";
+import { FiX, FiMenu } from "react-icons/fi";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
@@ -30,7 +30,7 @@ export const Sidebar = ({ items, title, isOpen, onClose, onOpen }: SidebarProps)
         className="lg:hidden fixed top-4 left-4 z-50 p-2 rounded-md bg-card border border-border"
         onClick={onOpen}
       >
-        <Menu className="h-6 w-6" />
+        <FiMenu className="h-6 w-6" />
       </button>
 
       {/* Mobile sidebar */}
@@ -66,7 +66,7 @@ export const Sidebar = ({ items, title, isOpen, onClose, onOpen }: SidebarProps)
                     className="rounded-md p-2 text-muted-foreground hover:text-foreground"
                     onClick={onClose}
                   >
-                    <X className="h-6 w-6" />
+                    <FiX className="h-6 w-6" />
                   </button>
                 </div>
                 <nav className="flex flex-1 flex-col px-3 py-4 space-y-1">

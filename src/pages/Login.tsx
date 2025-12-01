@@ -6,7 +6,7 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useAuth } from "@/contexts/AuthContext";
-import { LogIn, ArrowLeft } from "lucide-react";
+import { FiLogIn, FiArrowLeft } from "react-icons/fi";
 import { motion } from "framer-motion";
 
 const Login = () => {
@@ -26,7 +26,7 @@ const Login = () => {
     if (success) {
       // Небольшая задержка для обновления состояния пользователя
       setTimeout(() => {
-        const from = (location.state as any)?.from?.pathname;
+        const from = (location.state as { from?: { pathname?: string } } | null)?.from?.pathname;
         if (from) {
           navigate(from, { replace: true });
         } else {
@@ -63,12 +63,12 @@ const Login = () => {
         <Card className="p-6 sm:p-8">
           <div className="mb-6">
             <Link to="/" className="inline-flex items-center text-sm text-muted-foreground hover:text-foreground mb-4">
-              <ArrowLeft className="h-4 w-4 mr-2" />
+              <FiArrowLeft className="h-4 w-4 mr-2" />
               {t("common.back")}
             </Link>
             <div className="text-center">
               <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
-                <LogIn className="h-8 w-8 text-primary" />
+                <FiLogIn className="h-8 w-8 text-primary" />
               </div>
               <h1 className="text-3xl font-bold text-foreground mb-2">FeedbackHub</h1>
               <p className="text-muted-foreground">{t("auth.login")}</p>

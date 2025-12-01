@@ -69,13 +69,16 @@ export interface GrowthMetrics {
   trend: "up" | "down" | "stable";
 }
 
+// Типы для переводов
+export type TranslatedString = string | { ru: string; en: string; kk: string };
+
 export interface SubscriptionPlan {
   id: string;
-  name: PlanType;
+  name: PlanType | TranslatedString; // Может быть строкой (старые планы) или объектом с переводами
   price: number;
   messagesLimit: number;
   storageLimit: number;
-  features: string[];
+  features: string[] | TranslatedString[]; // Может быть массивом строк или массивом объектов с переводами
   isFree?: boolean; // Является ли план бесплатным (настраивается админом)
   freePeriodDays?: number; // Количество дней бесплатного доступа (для бесплатного плана)
 }

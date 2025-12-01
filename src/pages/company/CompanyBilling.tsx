@@ -4,11 +4,12 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { CreditCard, Check, ArrowRight } from "lucide-react";
+import { FiCreditCard, FiCheck, FiArrowRight } from "react-icons/fi";
 import { CompanyHeader } from "@/components/CompanyHeader";
 import { useAuth } from "@/contexts/AuthContext";
 import { companyApi, plansApi } from "@/services/api";
 import { toast } from "sonner";
+import { getTranslatedValue } from "@/lib/translations";
 
 const CompanyBilling = () => {
   const { t } = useTranslation();
@@ -41,7 +42,10 @@ const CompanyBilling = () => {
     );
   }
 
-  const currentPlan = plans.find((p) => p.name === company?.plan);
+  const currentPlan = plans.find((p) => {
+    const planName = typeof p.name === "string" ? p.name : getTranslatedValue(p.name);
+    return planName === company?.plan || (typeof p.name === "object" && (p.name.ru === company?.plan || p.name.en === company?.plan || p.name.kk === company?.plan));
+  });
   const messagesUsage = company
     ? Math.round((company.messagesThisMonth || 0) / (company.messagesLimit || 1) * 100)
     : 0;
@@ -63,7 +67,7 @@ const CompanyBilling = () => {
                   <h3 className="text-xl font-semibold text-foreground mb-2">{t("company.currentPlan")}</h3>
                   <div className="flex items-center gap-2">
                     <Badge variant="outline" className="text-lg">
-                      {company.status === t("admin.trial") ? t("company.trialPeriod") : currentPlan.name}
+                      {company.status === t("admin.trial") ? t("company.trialPeriod") : getTranslatedValue(currentPlan.name)}
                     </Badge>
                     {company.status === t("admin.trial") && company.trialEndDate && (
                       <Badge className="bg-primary text-white">
@@ -143,7 +147,8 @@ const CompanyBilling = () => {
             <h3 className="text-lg sm:text-xl font-semibold text-foreground mb-4 sm:mb-6">{t("company.availablePlans")}</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
               {plans.map((plan) => {
-                const isCurrent = plan.name === company?.plan;
+                const planName = typeof plan.name === "string" ? plan.name : getTranslatedValue(plan.name);
+                const isCurrent = planName === company?.plan || (typeof plan.name === "object" && (plan.name.ru === company?.plan || plan.name.en === company?.plan || plan.name.kk === company?.plan));
                 return (
                   <Card
                     key={plan.id}
@@ -152,10 +157,10 @@ const CompanyBilling = () => {
                     <div className="space-y-4">
                       <div>
                         <div className="flex items-center justify-between mb-2">
-                          <h4 className="text-lg font-semibold text-foreground">{plan.name}</h4>
+                          <h4 className="text-lg font-semibold text-foreground">{getTranslatedValue(plan.name)}</h4>
                           {isCurrent && (
                             <Badge className="bg-primary text-primary-foreground">
-                              <Check className="h-3 w-3 mr-1" />
+                              <FiCheck className="h-3 w-3 mr-1" />
                               {t("company.current")}
                             </Badge>
                           )}
@@ -169,8 +174,8 @@ const CompanyBilling = () => {
                       <ul className="space-y-2">
                         {plan.features.map((feature, idx) => (
                           <li key={idx} className="flex items-start gap-2 text-sm text-foreground">
-                            <Check className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
-                            <span>{feature}</span>
+                            <FiCheck className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
+                            <span>{getTranslatedValue(feature)}</span>
                           </li>
                         ))}
                       </ul>
@@ -182,7 +187,7 @@ const CompanyBilling = () => {
                         onClick={() => handleUpgrade(plan.id)}
                       >
                         {isCurrent ? t("company.currentPlan") : t("company.selectPlan")}
-                        {!isCurrent && <ArrowRight className="h-4 w-4 ml-2" />}
+                        {!isCurrent && <FiArrowRight className="h-4 w-4 ml-2" />}
                       </Button>
                     </div>
                   </Card>
