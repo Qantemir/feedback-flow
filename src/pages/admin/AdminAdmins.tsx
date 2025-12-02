@@ -38,9 +38,19 @@ const AdminAdmins = () => {
       <AdminHeader />
 
       <div className="flex flex-col min-h-screen overflow-x-hidden">
-        <div className="container flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-0 px-4 sm:px-6 py-4 mb-4 sm:mb-6">
+        <div className="container flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4 px-4 sm:px-6 py-4 mb-4 sm:mb-6">
           <h2 className="text-base sm:text-lg font-semibold text-foreground">{t("admin.admins")}</h2>
-          <Button onClick={() => setIsDialogOpen(true)} size="sm" className="w-full sm:w-auto">
+          <div className="relative flex-1 max-w-md">
+            <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Input
+              placeholder={t("admin.searchAdmins")}
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="pl-10"
+              autoComplete="off"
+            />
+          </div>
+          <Button onClick={() => setIsDialogOpen(true)} size="sm" className="w-full sm:w-auto shrink-0">
             <FiPlus className="h-4 w-4 mr-2" />
             <span className="hidden sm:inline">{t("admin.addAdmin")}</span>
             <span className="sm:hidden">{t("common.add")}</span>
@@ -48,18 +58,6 @@ const AdminAdmins = () => {
         </div>
 
         <main className="container flex-1 p-4 sm:p-6 space-y-4 sm:space-y-6 overflow-x-hidden">
-          <Card className="p-6">
-            <div className="relative">
-              <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-              <Input
-                placeholder={t("admin.searchAdmins")}
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10"
-                autoComplete="off"
-              />
-            </div>
-          </Card>
 
           {isLoading ? (
             <div className="text-center py-12">
