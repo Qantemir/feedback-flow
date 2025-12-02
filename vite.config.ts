@@ -35,8 +35,13 @@ export default defineConfig(({ mode }) => {
     // Optimize chunk splitting
     rollupOptions: {
       output: {
+        // Ensure ES module format for proper MIME types
+        format: 'es',
+        // Ensure proper module format
+        entryFileNames: 'assets/js/[name]-[hash].js',
+        chunkFileNames: 'assets/js/[name]-[hash].js',
         manualChunks(id) {
-          // React and React DOM - core framework
+          // React and React DOM - keep together to prevent "unstable_scheduleCallback" errors
           if (id.includes('node_modules/react') || id.includes('node_modules/react-dom')) {
             return 'react-vendor';
           }
@@ -81,9 +86,6 @@ export default defineConfig(({ mode }) => {
             return 'vendor';
           }
         },
-        // Optimize chunk file names
-        chunkFileNames: 'assets/js/[name]-[hash].js',
-        entryFileNames: 'assets/js/[name]-[hash].js',
         assetFileNames: (assetInfo) => {
           const info = assetInfo.name?.split('.') || [];
           const ext = info[info.length - 1];
@@ -115,6 +117,8 @@ export default defineConfig(({ mode }) => {
     modulePreload: {
       polyfill: false, // Modern browsers support module preload
     },
+    // Ensure proper module format
+    assetsInlineLimit: 4096, // Inline small assets
   },
   // Optimize dependencies
   optimizeDeps: {
