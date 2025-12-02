@@ -65,7 +65,7 @@ const mockCompanies: Company[] = [
     code: "ACME001",
     adminEmail: "admin@acme.com",
     status: "Активна",
-    plan: "Про",
+    plan: "Стандарт",
     registered: "2024-01-15",
     employees: 245,
     messages: 127,
@@ -96,7 +96,7 @@ const mockCompanies: Company[] = [
     code: "GLOB001",
     adminEmail: "mike.jones@global.com",
     status: "Активна",
-    plan: "Бизнес",
+    plan: "Про",
     registered: "2023-11-20",
     employees: 890,
     messages: 456,
@@ -266,7 +266,7 @@ export const statsApi = {
 let freePlanSettings = {
   messagesLimit: 10,
   storageLimit: 1,
-  freePeriodDays: 0, // 0 = без ограничений по времени
+  freePeriodDays: 60, // 60 дней = 2 месяца бесплатного доступа ко всем функциям
 };
 
 // Хранилище планов (в реальном приложении это будет база данных)
@@ -293,9 +293,52 @@ export const plansApi = {
         freePeriodDays: freePlanSettings.freePeriodDays,
         features: [
           {
-            ru: `До ${freePlanSettings.messagesLimit} сообщений в месяц`,
-            en: `Up to ${freePlanSettings.messagesLimit} messages per month`,
-            kk: `Айына ${freePlanSettings.messagesLimit} хабарламаға дейін`
+            ru: "Все функции на 2 месяца",
+            en: "All features for 2 months",
+            kk: "2 айға барлық функциялар"
+          },
+          {
+            ru: "Полный доступ ко всем возможностям платформы",
+            en: "Full access to all platform features",
+            kk: "Платформаның барлық мүмкіндіктеріне толық қол жетімділік"
+          },
+          {
+            ru: "Приём и ответы на сообщения",
+            en: "Receive and respond to messages",
+            kk: "Хабарламаларды қабылдау және жауап беру"
+          },
+          {
+            ru: "Аналитика и отчёты",
+            en: "Analytics and reports",
+            kk: "Аналитика және есептер"
+          },
+          {
+            ru: "Рейтинги и метрики",
+            en: "Ratings and metrics",
+            kk: "Рейтингтер және метрикалар"
+          }
+        ],
+      },
+      {
+        id: "standard",
+        name: {
+          ru: "Стандарт",
+          en: "Standard",
+          kk: "Стандарт"
+        },
+        price: 2999,
+        messagesLimit: 100,
+        storageLimit: 10,
+        features: [
+          {
+            ru: "Приём сообщений",
+            en: "Receive messages",
+            kk: "Хабарламаларды қабылдау"
+          },
+          {
+            ru: "Ответы на сообщения",
+            en: "Respond to messages",
+            kk: "Хабарламаларға жауап беру"
           },
           {
             ru: "Просмотр и управление сообщениями",
@@ -321,80 +364,37 @@ export const plansApi = {
           en: "Pro",
           kk: "Про"
         },
-        price: 2999,
-        messagesLimit: 100,
-        storageLimit: 10,
-        features: [
-          {
-            ru: "До 100 сообщений в месяц",
-            en: "Up to 100 messages per month",
-            kk: "Айына 100 хабарламаға дейін"
-          },
-          {
-            ru: "Все функции бесплатного плана",
-            en: "All free plan features",
-            kk: "Тегін жоспардың барлық функциялары"
-          },
-          {
-            ru: "Расширенная аналитика",
-            en: "Advanced analytics",
-            kk: "Кеңейтілген аналитика"
-          },
-          {
-            ru: "Метрики роста и рейтинги",
-            en: "Growth metrics and ratings",
-            kk: "Өсу метрикалары және рейтингтер"
-          },
-          {
-            ru: "Анализ настроения команды",
-            en: "Team mood analysis",
-            kk: "Команда көңіл-күйін талдау"
-          },
-          {
-            ru: "Достижения и прогресс",
-            en: "Achievements and progress",
-            kk: "Жетістіктер және прогресс"
-          },
-          {
-            ru: "Приоритетная поддержка",
-            en: "Priority support",
-            kk: "Басымдықты қолдау"
-          }
-        ],
-      },
-      {
-        id: "business",
-        name: {
-          ru: "Бизнес",
-          en: "Business",
-          kk: "Бизнес"
-        },
         price: 9999,
         messagesLimit: 500,
         storageLimit: 50,
         features: [
           {
-            ru: "До 500 сообщений в месяц",
-            en: "Up to 500 messages per month",
-            kk: "Айына 500 хабарламаға дейін"
+            ru: "Все функции тарифа Стандарт",
+            en: "All Standard plan features",
+            kk: "Стандарт жоспарының барлық функциялары"
           },
           {
-            ru: "Все функции плана Про",
-            en: "All Pro plan features",
-            kk: "Про жоспарының барлық функциялары"
+            ru: "Аналитика",
+            en: "Analytics",
+            kk: "Аналитика"
           },
           {
-            ru: "Полная аналитика",
-            en: "Full analytics",
-            kk: "Толық аналитика"
+            ru: "Отчёты",
+            en: "Reports",
+            kk: "Есептер"
           },
           {
-            ru: "Детальные отчеты",
-            en: "Detailed reports",
-            kk: "Толық есептер"
+            ru: "Рейтинги",
+            en: "Ratings",
+            kk: "Рейтингтер"
           },
           {
-            ru: "Экспорт отчетов в PDF",
+            ru: "Детальная аналитика и метрики",
+            en: "Detailed analytics and metrics",
+            kk: "Толық аналитика және метрикалар"
+          },
+          {
+            ru: "Экспорт отчётов в PDF",
             en: "PDF report export",
             kk: "PDF есептерді экспорттау"
           },
@@ -404,9 +404,9 @@ export const plansApi = {
             kk: "Трендтерді талдау"
           },
           {
-            ru: "24/7 поддержка",
-            en: "24/7 support",
-            kk: "24/7 қолдау"
+            ru: "Метрики роста",
+            en: "Growth metrics",
+            kk: "Өсу метрикалары"
           }
         ],
       },

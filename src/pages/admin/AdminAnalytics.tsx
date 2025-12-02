@@ -100,7 +100,7 @@ const AdminAnalytics = () => {
               <Card className="p-6">
                 <h3 className="text-lg font-semibold mb-4">{t("admin.planDistribution")}</h3>
                 <div className="space-y-3">
-                  {[t("common.free"), t("admin.planPro"), t("admin.planBusiness")].map((plan) => {
+                  {[t("common.free"), t("admin.planStandard"), t("admin.planPro")].map((plan) => {
                     const count = companies.filter((c) => c.plan === plan).length;
                     const percent = totalCompanies > 0 ? Math.round((count / totalCompanies) * 100) : 0;
                     return (
