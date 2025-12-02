@@ -588,7 +588,7 @@ const AdminPlans = () => {
                               });
                             }}
                           >
-                            <Plus className="h-4 w-4 mr-1" />
+                            <FiPlus className="h-4 w-4 mr-1" />
                             {t("common.add")}
                           </Button>
                         </div>
@@ -714,11 +714,12 @@ const AdminPlans = () => {
                         onClick={() => {
                           setIsDialogOpen(false);
                           setNewPlan({
-                            name: "",
+                            name: { ru: "", en: "", kk: "" },
                             price: 0,
                             messagesLimit: 0,
                             storageLimit: 0,
                             selectedFeatures: [],
+                            customFeatures: [],
                           });
                         }}
                       >
@@ -727,7 +728,7 @@ const AdminPlans = () => {
                       <Button
                         className="flex-1"
                         onClick={handleCreatePlan}
-                        disabled={!newPlan.name.trim() || newPlan.selectedFeatures.length === 0}
+                        disabled={(!newPlan.name.ru.trim() && !newPlan.name.en.trim() && !newPlan.name.kk.trim()) || (newPlan.selectedFeatures.length === 0 && newPlan.customFeatures.length === 0)}
                       >
                         {t("admin.createPlan")}
                       </Button>
