@@ -5,6 +5,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { FiPlus, FiShield, FiTrash2 } from "react-icons/fi";
 import { AdminHeader } from "@/components/AdminHeader";
@@ -33,7 +34,7 @@ const AdminAdmins = () => {
       <AdminHeader />
 
       <div className="flex flex-col min-h-screen overflow-x-hidden">
-        <div className="container flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-0 px-4 sm:px-6 py-4 mb-4 sm:mb-6">
+        <div className="container flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 px-4 sm:px-6 py-4 mb-4 sm:mb-6">
           <h2 className="text-base sm:text-lg font-semibold text-foreground">{t("admin.admins")}</h2>
           <Button onClick={() => setIsDialogOpen(true)} size="sm" className="w-full sm:w-auto">
             <FiPlus className="h-4 w-4 mr-2" />
