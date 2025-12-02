@@ -25,6 +25,7 @@ export default defineConfig(({ mode }) => ({
   },
   build: {
     // Enable minification with esbuild (faster than terser, built-in)
+    // esbuild is built into Vite, no need to install terser
     minify: 'esbuild',
     // Optimize chunk splitting
     rollupOptions: {
@@ -98,7 +99,7 @@ export default defineConfig(({ mode }) => ({
     sourcemap: mode === 'development',
     // Optimize CSS
     cssCodeSplit: true,
-    cssMinify: true,
+    cssMinify: 'esbuild', // Use esbuild for CSS minification too
     // Ensure proper module resolution
     commonjsOptions: {
       include: [/node_modules/],
