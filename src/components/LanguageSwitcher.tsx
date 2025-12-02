@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Listbox, Transition } from '@headlessui/react';
 import { FiCheck, FiChevronDown, FiGlobe } from 'react-icons/fi';
@@ -10,7 +11,7 @@ const languages = [
   { code: 'kk', name: 'Қазақша', flag: '🇰🇿' },
 ];
 
-export const LanguageSwitcher = () => {
+export const LanguageSwitcher = memo(() => {
   const { i18n } = useTranslation();
   const currentLanguage = languages.find((lang) => lang.code === i18n.language) || languages[0];
 
@@ -93,5 +94,6 @@ export const LanguageSwitcher = () => {
       )}
     </Listbox>
   );
-};
+});
+LanguageSwitcher.displayName = 'LanguageSwitcher';
 

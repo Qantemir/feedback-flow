@@ -47,9 +47,17 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     
-    <!-- Preconnect for performance -->
+    <!-- Resource Hints for Performance -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+    
+    <!-- Preload critical resources -->
+    <link rel="modulepreload" href="/src/main.tsx" />
+    
+    <!-- Prefetch routes for faster navigation -->
+    <link rel="prefetch" href="/src/pages/Welcome.tsx" />
+    <link rel="prefetch" href="/src/pages/SendMessage.tsx" />
+    <link rel="prefetch" href="/src/pages/CheckStatus.tsx" />
   </head>
 
   <body>

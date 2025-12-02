@@ -27,7 +27,22 @@ const AdminAdmins = lazy(() => import("./pages/admin/AdminAdmins"));
 const AdminSettings = lazy(() => import("./pages/admin/AdminSettings"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
-const queryClient = new QueryClient();
+// Optimized QueryClient with better caching
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 5 * 60 * 1000, // 5 minutes - data stays fresh
+      gcTime: 10 * 60 * 1000, // 10 minutes - cache time (formerly cacheTime)
+      refetchOnWindowFocus: false, // Don't refetch on window focus for better performance
+      refetchOnReconnect: true, // Refetch when network reconnects
+      retry: 1, // Only retry once on failure
+      retryDelay: 1000, // Wait 1 second before retry
+    },
+    mutations: {
+      retry: false, // Don't retry mutations
+    },
+  },
+});
 
 // Применяем полноэкранный режим при загрузке
 const applyFullscreenOnLoad = () => {
@@ -42,10 +57,13 @@ const applyFullscreenOnLoad = () => {
 // Применяем при загрузке
 applyFullscreenOnLoad();
 
-// Loading component for Suspense
+// Optimized loading component for Suspense
 const PageLoader = () => (
-  <div className="flex items-center justify-center min-h-screen">
-    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900"></div>
+  <div className="flex items-center justify-center min-h-screen bg-background">
+    <div className="flex flex-col items-center gap-3">
+      <div className="animate-spin rounded-full h-10 w-10 border-2 border-primary border-t-transparent"></div>
+      <p className="text-sm text-muted-foreground">Загрузка...</p>
+    </div>
   </div>
 );
 
