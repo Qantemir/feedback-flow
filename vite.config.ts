@@ -24,8 +24,8 @@ export default defineConfig(({ mode }) => ({
     legalComments: 'none', // Remove comments
   },
   build: {
-    // Enable minification with esbuild (faster than terser, built-in)
-    // esbuild is built into Vite, no need to install terser
+    // CRITICAL: Use esbuild for minification (built into Vite, no terser needed)
+    // This prevents the "terser not found" error on hosting
     minify: 'esbuild',
     // Optimize chunk splitting
     rollupOptions: {
