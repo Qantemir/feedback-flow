@@ -4,7 +4,11 @@ import path from "path";
 import { componentTagger } from "lovable-tagger";
 
 // https://vitejs.dev/config/
-export default defineConfig(({ mode }) => ({
+export default defineConfig(({ mode }) => {
+  // Force esbuild minification - do not use terser
+  const isProduction = mode === 'production';
+  
+  return {
   server: {
     host: "::",
     port: 8080,
@@ -20,13 +24,14 @@ export default defineConfig(({ mode }) => ({
   },
   esbuild: {
     // Remove console and debugger in production
-    drop: mode === 'production' ? ['console', 'debugger'] : [],
+    drop: isProduction ? ['console', 'debugger'] : [],
     legalComments: 'none', // Remove comments
   },
   build: {
     // CRITICAL: Use esbuild for minification (built into Vite, no terser needed)
     // This prevents the "terser not found" error on hosting
-    minify: 'esbuild',
+    // DO NOT CHANGE TO 'terser' - esbuild is faster and built-in
+    minify: 'esbuild' as const,
     // Optimize chunk splitting
     rollupOptions: {
       output: {
@@ -123,4 +128,5 @@ export default defineConfig(({ mode }) => ({
     ],
     exclude: ['recharts'], // Exclude large libraries that are lazy loaded
   },
-}));
+  };
+});
