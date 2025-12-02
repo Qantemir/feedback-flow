@@ -13,7 +13,7 @@ export default defineConfig(({ mode }) => {
     host: "::",
     port: 8080,
     headers: {
-      "Permissions-Policy": "geolocation=(), microphone=(), camera=(), payment=(), usb=(), magnetometer=(), gyroscope=(), speaker=()",
+      "Permissions-Policy": "geolocation=(), microphone=(), camera=(), payment=(), usb=(), magnetometer=(), gyroscope=(), speaker=(), browsing-topics=()",
     },
   },
   plugins: [react(), mode === "development" && componentTagger()].filter(Boolean),
