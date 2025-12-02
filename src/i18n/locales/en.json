@@ -373,6 +373,11 @@
     "inProgress": "In Progress",
     "date": "Date",
     "yourResponse": "Your Response"
+  },
+  "seo": {
+    "defaultTitle": "FeedbackHub - Anonymous Feedback Platform",
+    "defaultDescription": "Send anonymous feedback to your company. Secure platform for honest feedback.",
+    "defaultKeywords": "feedback, anonymous feedback, HR, company, anonymity, complaints, suggestions, employee feedback"
   }
 }
 

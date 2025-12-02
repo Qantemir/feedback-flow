@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { messageApi } from "@/services/api";
 import { Message } from "@/types";
+import { SEO } from "@/components/SEO";
 
 const CheckStatus = () => {
   const { t } = useTranslation();
@@ -79,7 +80,16 @@ const CheckStatus = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background flex flex-col">
+    <>
+      <SEO
+        title={t("checkStatus.title", { defaultValue: "Проверить статус сообщения" })}
+        description={t("checkStatus.description", {
+          defaultValue: "Введите ID вашего сообщения, чтобы отследить статус отзыва.",
+        })}
+        keywords="проверить статус, отследить сообщение, статус отзыва, ID сообщения"
+        noindex={false}
+      />
+      <div className="min-h-screen bg-background flex flex-col">
       <header className="border-b border-border bg-card">
         <div className="container mx-auto px-6 py-4">
           <Button variant="ghost" size="sm" onClick={() => navigate('/')}>
@@ -190,7 +200,8 @@ const CheckStatus = () => {
           </Card>
         </div>
       </main>
-    </div>
+      </div>
+    </>
   );
 };
 

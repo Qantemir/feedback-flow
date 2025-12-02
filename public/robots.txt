@@ -1,14 +1,19 @@
-User-agent: Googlebot
-Allow: /
-
-User-agent: Bingbot
-Allow: /
-
-User-agent: Twitterbot
-Allow: /
-
-User-agent: facebookexternalhit
-Allow: /
+# Robots.txt for FeedbackHub
 
 User-agent: *
 Allow: /
+Disallow: /admin/
+Disallow: /company/
+Disallow: /login
+Disallow: /register
+
+# Allow public pages
+Allow: /
+Allow: /send-message
+Allow: /check-status
+
+# Sitemap
+Sitemap: https://feedbackhub.com/sitemap.xml
+
+# Crawl-delay
+Crawl-delay: 1

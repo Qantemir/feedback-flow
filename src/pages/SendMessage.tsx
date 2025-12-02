@@ -14,6 +14,7 @@ import { toast } from "sonner";
 import { messageApi, companyApi } from "@/services/api";
 import { MessageType } from "@/types";
 import { motion } from "framer-motion";
+import { SEO } from "@/components/SEO";
 
 const SendMessage = () => {
   const { t } = useTranslation();
@@ -190,8 +191,17 @@ const SendMessage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background flex flex-col">
-      <header className="border-b border-border bg-card">
+    <>
+      <SEO
+        title={t("sendMessage.title", { defaultValue: "Отправить анонимное сообщение" })}
+        description={t("sendMessage.anonymousMessage", {
+          defaultValue: "Отправьте анонимное сообщение в свою компанию. Полная конфиденциальность гарантирована.",
+        })}
+        keywords="отправить сообщение, анонимное сообщение, обратная связь, жалоба, предложение"
+        noindex={false}
+      />
+      <div className="min-h-screen bg-background flex flex-col">
+        <header className="border-b border-border bg-card">
         <div className="container mx-auto px-6 py-4">
           <Button variant="ghost" size="sm" onClick={() => navigate('/')}>
             <FiArrowLeft className="h-4 w-4 mr-2" />
@@ -346,7 +356,8 @@ const SendMessage = () => {
           </form>
         </Card>
       </main>
-    </div>
+      </div>
+    </>
   );
 };
 

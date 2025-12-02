@@ -12,6 +12,7 @@ import { companyApi } from "@/services/api";
 import { motion } from "framer-motion";
 import { toast } from "sonner";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
+import { SEO, WebsiteStructuredData, OrganizationStructuredData } from "@/components/SEO";
 
 const Welcome = () => {
   const { t } = useTranslation();
@@ -70,8 +71,18 @@ const Welcome = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-background flex flex-col">
-      {/* Header */}
+    <>
+      <SEO
+        title={t("welcome.title", { defaultValue: "Отправьте анонимный отзыв в свою компанию" })}
+        description={t("welcome.subtitle", {
+          defaultValue: "Делитесь честными мыслями, жалобами, похвалами или предложениями без раскрытия личности. Ваш голос важен, и мы сохраняем полную конфиденциальность.",
+        })}
+        keywords="анонимные отзывы, обратная связь, HR, жалобы, предложения, анонимность, конфиденциальность"
+      />
+      <WebsiteStructuredData />
+      <OrganizationStructuredData />
+      <div className="min-h-screen bg-background flex flex-col">
+        {/* Header */}
       <header className="border-b border-border bg-card">
         <div className="container mx-auto px-4 sm:px-6 py-3 sm:py-4">
           <div className="flex items-center justify-between">
@@ -249,7 +260,8 @@ const Welcome = () => {
           </p>
         </div>
       </footer>
-    </div>
+      </div>
+    </>
   );
 };
 
