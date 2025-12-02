@@ -5,16 +5,14 @@ import { Dialog, Transition } from "@headlessui/react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { FiPlus, FiSearch, FiShield, FiTrash2 } from "react-icons/fi";
+import { FiPlus, FiShield, FiTrash2 } from "react-icons/fi";
 import { AdminHeader } from "@/components/AdminHeader";
 import { adminApi } from "@/services/api";
 import { toast } from "sonner";
 
 const AdminAdmins = () => {
   const { t } = useTranslation();
-  const [searchQuery, setSearchQuery] = useState("");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const { data: admins = [], isLoading, refetch } = useQuery({
@@ -22,10 +20,7 @@ const AdminAdmins = () => {
     queryFn: () => adminApi.getAdmins(),
   });
 
-  const filteredAdmins = admins.filter((admin) =>
-    admin.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    admin.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const filteredAdmins = admins;
 
   const handleDelete = async (adminId: string) => {
     // В реальном приложении здесь будет API вызов
@@ -38,19 +33,9 @@ const AdminAdmins = () => {
       <AdminHeader />
 
       <div className="flex flex-col min-h-screen overflow-x-hidden">
-        <div className="container flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4 px-4 sm:px-6 py-4 mb-4 sm:mb-6">
+        <div className="container flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-0 px-4 sm:px-6 py-4 mb-4 sm:mb-6">
           <h2 className="text-base sm:text-lg font-semibold text-foreground">{t("admin.admins")}</h2>
-          <div className="relative flex-1 max-w-md">
-            <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <Input
-              placeholder={t("admin.searchAdmins")}
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10"
-              autoComplete="off"
-            />
-          </div>
-          <Button onClick={() => setIsDialogOpen(true)} size="sm" className="w-full sm:w-auto shrink-0">
+          <Button onClick={() => setIsDialogOpen(true)} size="sm" className="w-full sm:w-auto">
             <FiPlus className="h-4 w-4 mr-2" />
             <span className="hidden sm:inline">{t("admin.addAdmin")}</span>
             <span className="sm:hidden">{t("common.add")}</span>
