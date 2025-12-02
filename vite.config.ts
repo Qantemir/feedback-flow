@@ -40,9 +40,17 @@ export default defineConfig(({ mode }) => {
         // Ensure proper module format
         entryFileNames: 'assets/js/[name]-[hash].js',
         chunkFileNames: 'assets/js/[name]-[hash].js',
+        // Ensure proper interop for CommonJS modules (prevents React errors)
+        interop: 'auto',
         manualChunks(id) {
-          // React and React DOM - keep together to prevent "unstable_scheduleCallback" errors
-          if (id.includes('node_modules/react') || id.includes('node_modules/react-dom')) {
+          // CRITICAL: React and React-DOM MUST stay together in the same chunk
+          // Splitting them causes "unstable_scheduleCallback" errors
+          // Keep them with the main vendor chunk to ensure correct loading order
+          const isReact = id.includes('node_modules/react') && !id.includes('node_modules/react-dom');
+          const isReactDOM = id.includes('node_modules/react-dom');
+          
+          // If it's React or React-DOM, put them in react-vendor together
+          if (isReact || isReactDOM) {
             return 'react-vendor';
           }
           
@@ -99,7 +107,7 @@ export default defineConfig(({ mode }) => {
         },
       },
       // Ensure proper dependency resolution
-      preserveEntrySignatures: 'strict',
+      preserveEntrySignatures: 'allow-extension',
     },
     chunkSizeWarningLimit: 1000,
     // Enable source maps only in development
@@ -125,12 +133,19 @@ export default defineConfig(({ mode }) => {
     include: [
       'react',
       'react-dom',
+      'react/jsx-runtime',
       'react-router-dom',
       '@tanstack/react-query',
       'i18next',
       'react-i18next',
     ],
     exclude: ['recharts'], // Exclude large libraries that are lazy loaded
+    // Force React and React-DOM to be pre-bundled together
+    esbuildOptions: {
+      target: 'esnext',
+    },
+    // Ensure React dependencies are handled correctly
+    force: true, // Force re-optimization
   },
   };
 });
