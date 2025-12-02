@@ -67,8 +67,8 @@ All colors MUST be HSL.
     --destructive: 345 90% 63%; /* #F64C72 */
     --destructive-foreground: 0 0% 100%;
 
-    /* Success / Resolved: Green for "Решено" status */
-    --success: 142 71% 45%; /* Green for resolved status */
+    /* Success / Resolved: Primary color for "Решено" status */
+    --success: 240 57% 41%; /* #2F2FA2 - Primary color for resolved status */
     --success-foreground: 0 0% 100%;
 
     /* Borders: #E0E0E8 */
@@ -123,8 +123,8 @@ All colors MUST be HSL.
     --destructive: 345 90% 63%; /* #F64C72 */
     --destructive-foreground: 0 0% 100%;
 
-    /* Success / Resolved: Green for "Решено" status */
-    --success: 142 71% 50%; /* Slightly lighter green for dark mode */
+    /* Success / Resolved: Primary color for "Решено" status */
+    --success: 240 57% 50%; /* #2F2FA2 - Lighter primary for dark mode */
     --success-foreground: 0 0% 100%;
 
     --border: 239 57% 20%;
