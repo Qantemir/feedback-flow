@@ -43,36 +43,9 @@ export default defineConfig(({ mode }) => {
         // Ensure proper interop for CommonJS modules (prevents React errors)
         interop: 'auto',
         manualChunks(id) {
-          // CRITICAL: React and React-DOM MUST stay together in the same chunk
-          // Splitting them causes "unstable_scheduleCallback" errors
-          // Keep them with the main vendor chunk to ensure correct loading order
-          const isReact = id.includes('node_modules/react') && !id.includes('node_modules/react-dom');
-          const isReactDOM = id.includes('node_modules/react-dom');
-          
-          // If it's React or React-DOM, put them in react-vendor together
-          if (isReact || isReactDOM) {
-            return 'react-vendor';
-          }
-          
-          // React Router - routing library
-          if (id.includes('node_modules/react-router')) {
-            return 'router-vendor';
-          }
-          
-          // React Query - data fetching
-          if (id.includes('node_modules/@tanstack/react-query')) {
-            return 'query-vendor';
-          }
-          
-          // i18next - internationalization
-          if (id.includes('node_modules/i18next') || id.includes('node_modules/react-i18next')) {
-            return 'i18n-vendor';
-          }
-          
-          // Framer Motion - animations
-          if (id.includes('node_modules/framer-motion')) {
-            return 'motion-vendor';
-          }
+          // CRITICAL: Don't split React/React-DOM - keep them in main vendor chunk
+          // This prevents "createContext" and "unstable_scheduleCallback" errors
+          // React must be available synchronously for other modules
           
           // Recharts - large library, separate chunk (lazy loaded)
           if (id.includes('node_modules/recharts')) {
@@ -89,7 +62,13 @@ export default defineConfig(({ mode }) => {
             return 'headless-vendor';
           }
           
-          // All other node_modules
+          // Framer Motion - animations (can be separate as it's not critical)
+          if (id.includes('node_modules/framer-motion')) {
+            return 'motion-vendor';
+          }
+          
+          // All other node_modules (including React, React-DOM, Router, Query, i18n)
+          // Keep them together to ensure proper loading order
           if (id.includes('node_modules')) {
             return 'vendor';
           }
