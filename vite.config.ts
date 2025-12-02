@@ -18,16 +18,14 @@ export default defineConfig(({ mode }) => ({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  esbuild: {
+    // Remove console and debugger in production
+    drop: mode === 'production' ? ['console', 'debugger'] : [],
+    legalComments: 'none', // Remove comments
+  },
   build: {
-    // Enable minification
-    minify: 'terser',
-    terserOptions: {
-      compress: {
-        drop_console: mode === 'production', // Remove console.log in production
-        drop_debugger: true,
-        pure_funcs: ['console.log', 'console.info'], // Remove specific console methods
-      },
-    },
+    // Enable minification with esbuild (faster than terser, built-in)
+    minify: 'esbuild',
     // Optimize chunk splitting
     rollupOptions: {
       output: {
