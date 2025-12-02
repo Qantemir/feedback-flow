@@ -369,9 +369,14 @@ export const plansApi = {
         storageLimit: 50,
         features: [
           {
-            ru: "Все функции тарифа Стандарт",
-            en: "All Standard plan features",
-            kk: "Стандарт жоспарының барлық функциялары"
+            ru: "Приём и ответы на сообщения",
+            en: "Receive and respond to messages",
+            kk: "Хабарламаларды қабылдау және жауап беру"
+          },
+          {
+            ru: "Просмотр и управление сообщениями",
+            en: "View and manage messages",
+            kk: "Хабарламаларды көру және басқару"
           },
           {
             ru: "Аналитика",

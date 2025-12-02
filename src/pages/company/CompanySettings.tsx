@@ -9,6 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { FiCopy, FiShare2, FiCheckCircle, FiHome, FiUpload, FiX } from "react-icons/fi";
 import { CompanyHeader } from "@/components/CompanyHeader";
 import { useAuth } from "@/contexts/AuthContext";
@@ -17,9 +18,11 @@ import { toast } from "sonner";
 import { useFullscreen } from "@/hooks/use-fullscreen";
 
 const CompanySettings = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { user } = useAuth();
-  const [notifications, setNotifications] = useState(true);
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [copied, setCopied] = useState(false);
   const [logoPreview, setLogoPreview] = useState<string | null>(null);
   const [logoFile, setLogoFile] = useState<File | null>(null);
@@ -72,6 +75,26 @@ const CompanySettings = () => {
     }
   };
 
+  const handlePasswordChange = async () => {
+    if (!currentPassword || !newPassword || !confirmPassword) {
+      toast.error("Заполните все поля");
+      return;
+    }
+    if (newPassword !== confirmPassword) {
+      toast.error(t("auth.passwordMismatch"));
+      return;
+    }
+    if (newPassword.length < 6) {
+      toast.error("Пароль должен содержать минимум 6 символов");
+      return;
+    }
+    // В реальном приложении здесь будет API вызов
+    toast.success(t("company.passwordChanged"));
+    setCurrentPassword("");
+    setNewPassword("");
+    setConfirmPassword("");
+  };
+
   const handleSave = async () => {
     // В реальном приложении здесь будет API вызов для сохранения логотипа
     if (logoFile) {
@@ -79,6 +102,10 @@ const CompanySettings = () => {
       // await companyApi.uploadLogo(user?.companyId, logoFile);
     }
     toast.success(t("company.settingsSaved"));
+  };
+
+  const handleLanguageChange = (lang: string) => {
+    i18n.changeLanguage(lang);
   };
 
   if (isLoading) {
@@ -297,18 +324,65 @@ const CompanySettings = () => {
             </Card>
           )}
 
-          {/* Settings */}
+          {/* Change Password */}
           <Card className="p-6">
-            <h3 className="text-lg font-semibold mb-6">{t("company.preferences")}</h3>
+            <h3 className="text-lg font-semibold mb-6">{t("company.changePassword")}</h3>
             <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <div className="space-y-0.5">
-                  <Label>{t("company.emailNotifications")}</Label>
-                  <p className="text-sm text-muted-foreground">
-                    {t("company.emailNotificationsDescription")}
-                  </p>
-                </div>
-                <Switch checked={notifications} onCheckedChange={setNotifications} />
+              <div className="space-y-2">
+                <Label htmlFor="currentPassword">{t("company.currentPassword")}</Label>
+                <Input
+                  id="currentPassword"
+                  type="password"
+                  value={currentPassword}
+                  onChange={(e) => setCurrentPassword(e.target.value)}
+                  autoComplete="current-password"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="newPassword">{t("company.newPassword")}</Label>
+                <Input
+                  id="newPassword"
+                  type="password"
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                  autoComplete="new-password"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="confirmPassword">{t("company.confirmNewPassword")}</Label>
+                <Input
+                  id="confirmPassword"
+                  type="password"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  autoComplete="new-password"
+                />
+              </div>
+              <Button onClick={handlePasswordChange} className="w-full sm:w-auto">
+                {t("company.changePassword")}
+              </Button>
+            </div>
+          </Card>
+
+          {/* Project Settings */}
+          <Card className="p-6">
+            <h3 className="text-lg font-semibold mb-6">{t("company.projectSettings")}</h3>
+            <div className="space-y-4">
+              <div className="space-y-2">
+                <Label>{t("company.interfaceLanguage")}</Label>
+                <p className="text-sm text-muted-foreground">
+                  {t("company.interfaceLanguageDescription")}
+                </p>
+                <Select value={i18n.language} onValueChange={handleLanguageChange}>
+                  <SelectTrigger className="w-full">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="ru">Русский</SelectItem>
+                    <SelectItem value="en">English</SelectItem>
+                    <SelectItem value="kk">Қазақша</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
               <Separator />
               <div className="flex items-center justify-between">
