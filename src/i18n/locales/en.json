@@ -229,6 +229,7 @@
     "companyName": "Company Name",
     "adminEmail": "Admin Email",
     "searchCompanies": "Search companies...",
+    "loadingCompanies": "Loading companies...",
     "companyDetails": "Company Details",
     "selectCompany": "Select a company",
     "status": "Status",

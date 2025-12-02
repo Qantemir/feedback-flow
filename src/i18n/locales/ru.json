@@ -230,6 +230,7 @@
     "companyName": "Название компании",
     "adminEmail": "Email администратора",
     "searchCompanies": "Поиск компаний...",
+    "loadingCompanies": "Загрузка компаний...",
     "companyDetails": "Детали компании",
     "selectCompany": "Выберите компанию",
     "status": "Статус",

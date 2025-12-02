@@ -229,6 +229,7 @@
     "companyName": "Компания атауы",
     "adminEmail": "Әкімші email-і",
     "searchCompanies": "Компанияларды іздеу...",
+    "loadingCompanies": "Компаниялар жүктелуде...",
     "companyDetails": "Компания мәліметтері",
     "selectCompany": "Компания таңдаңыз",
     "status": "Статус",
